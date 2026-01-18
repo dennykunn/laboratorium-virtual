@@ -1,0 +1,190 @@
+.petunjuk-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.petunjuk-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.petunjuk-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.petunjuk-title {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 15px;
+}
+
+.petunjuk-title .title-image {
+  width: 400px;
+  max-width: 70vw;
+  height: auto;
+  filter: drop-shadow(4px 6px 10px rgba(0, 0, 0, 0.3));
+}
+
+.petunjuk-board-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 950px;
+}
+
+.petunjuk-close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 20;
+}
+
+.petunjuk-board {
+  background: linear-gradient(180deg, #C4A35A 0%, #A67C4A 30%, #8B5A2B 100%);
+  border-radius: 25px;
+  padding: 20px 30px 30px;
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.4),
+    inset 0 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+.petunjuk-board-header {
+  background: linear-gradient(180deg, #E07B39 0%, #D96B29 100%);
+  border-radius: 15px;
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 auto 20px;
+  width: fit-content;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.petunjuk-header-text {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.petunjuk-header-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.petunjuk-main-content {
+  background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
+  border-radius: 15px;
+  padding: 25px;
+  min-height: 250px;
+}
+
+.petunjuk-subtitle {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.petunjuk-content-grid {
+  display: flex;
+  gap: 30px;
+}
+
+.alat-bahan {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.alat-bahan h4 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.bahan-list {
+  display: flex;
+  gap: 20px;
+}
+
+.bahan-column p {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.keterangan {
+  flex: 1;
+}
+
+.keterangan h4 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.keterangan-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.keterangan-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.keterangan-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.keterangan-item span {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  color: white;
+}
+
+.langkah-content {
+  color: white;
+}
+
+.langkah-list {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.1rem;
+  line-height: 2;
+  padding-left: 25px;
+}
+
+.langkah-list li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .petunjuk-content-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

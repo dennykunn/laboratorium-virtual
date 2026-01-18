@@ -1,0 +1,224 @@
+.lab-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.lab-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lab-header-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+.lab-table {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 900px;
+  height: 300px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10;
+}
+
+.magnet-container {
+  position: absolute;
+  top: -100px;
+  left: 30%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  z-index: 15;
+}
+
+.magnet-container.active {
+  cursor: default;
+}
+
+.magnet-image {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(3px 5px 8px rgba(0, 0, 0, 0.3));
+}
+
+.testing-area {
+  position: absolute;
+  top: -50px;
+  left: 55%;
+  z-index: 14;
+}
+
+.testing-object {
+  width: 80px;
+  height: auto;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+  animation: magnetTest 2s ease-in-out;
+}
+
+@keyframes magnetTest {
+  0% { transform: translateX(50px); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(50px); }
+}
+
+.objects-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 20px;
+}
+
+.lab-object {
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+.lab-object.tested {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.lab-object img {
+  width: 60px;
+  height: auto;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+.result-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+}
+
+.result-badge.magnetic {
+  background: #27ae60;
+}
+
+.result-badge.non-magnetic {
+  background: #e74c3c;
+}
+
+.result-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.result-icon {
+  width: 200px;
+  height: auto;
+  filter: drop-shadow(5px 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+.instruction-box {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 15px 40px;
+  border-radius: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+
+.instruction-box p {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  margin: 0;
+}
+
+.progress-indicator {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 25px;
+  border-radius: 20px;
+  z-index: 20;
+}
+
+.progress-indicator span {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  color: white;
+}
+
+.quiz-button {
+  position: absolute;
+  bottom: 100px;
+  right: 50px;
+  background: linear-gradient(180deg, #27ae60 0%, #2ecc71 100%);
+  border: none;
+  padding: 15px 35px;
+  border-radius: 30px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4);
+  z-index: 20;
+  transition: box-shadow 0.3s ease;
+}
+
+.quiz-button:hover {
+  box-shadow: 0 8px 30px rgba(39, 174, 96, 0.5);
+}
+
+@media (max-width: 768px) {
+  .objects-container {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .lab-object img {
+    width: 45px;
+  }
+  
+  .magnet-image {
+    width: 80px;
+  }
+  
+  .instruction-box {
+    width: 90%;
+    padding: 12px 20px;
+  }
+  
+  .instruction-box p {
+    font-size: 1rem;
+  }
+}

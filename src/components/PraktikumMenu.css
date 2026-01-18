@@ -1,0 +1,171 @@
+.praktikum-menu-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.praktikum-menu-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.praktikum-menu-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.praktikum-menu-title {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 15px;
+}
+
+.praktikum-menu-title .title-image {
+  width: 400px;
+  max-width: 70vw;
+  height: auto;
+  filter: drop-shadow(4px 6px 10px rgba(0, 0, 0, 0.3));
+}
+
+.praktikum-menu-board-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 900px;
+}
+
+.praktikum-menu-close-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  z-index: 20;
+}
+
+.praktikum-menu-board {
+  background: linear-gradient(180deg, #C4A35A 0%, #A67C4A 30%, #8B5A2B 100%);
+  border-radius: 25px;
+  padding: 20px 30px 30px;
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.4),
+    inset 0 2px 10px rgba(255, 255, 255, 0.2);
+}
+
+.praktikum-menu-board-header {
+  background: linear-gradient(180deg, #E07B39 0%, #D96B29 100%);
+  border-radius: 15px;
+  padding: 10px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 auto 25px;
+  width: fit-content;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.praktikum-menu-header-text {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.6rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.praktikum-menu-header-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.praktikum-options {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+.praktikum-option {
+  background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
+  border: 4px solid white;
+  border-radius: 20px;
+  padding: 25px 35px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.praktikum-option:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.option-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(2px 3px 5px rgba(0, 0, 0, 0.2));
+}
+
+.option-label {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.3rem;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.topic-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.topic-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.topic-btn img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.topic-btn span {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  color: white;
+}
+
+.topic-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.topic-btn.active {
+  background: rgba(46, 204, 113, 0.4);
+  border: 2px solid #2ecc71;
+}
+
+@media (max-width: 768px) {
+  .praktikum-options {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,27 @@
+/* App specific styles */
+.screen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Background with parallax effect */
+.background-outdoor {
+  background-image: url('/assets/latar-slide/2.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.background-lab {
+  background-image: url('/assets/latar-slide/5.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.background-sky {
+  background-image: url('/assets/latar-slide/1.jpg');
+  background-size: cover;
+  background-position: center;
+}
