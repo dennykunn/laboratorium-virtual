@@ -1,3 +1,18 @@
+/**
+ * ============================================================================
+ * CPTP-SCREEN.JSX - HALAMAN CAPAIAN PEMBELAJARAN & TUJUAN PEMBELAJARAN
+ * ============================================================================
+ * 
+ * Halaman ini menampilkan:
+ * - Capaian Pembelajaran (CP): Kompetensi yang harus dicapai siswa
+ * - Tujuan Pembelajaran (TP): Tujuan spesifik yang ingin dicapai
+ * 
+ * Konten sesuai dengan kurikulum IPA SMP/MTs Kelas VII
+ * tentang topik Gerak dan Gaya.
+ * 
+ * ============================================================================
+ */
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
@@ -8,6 +23,8 @@ import './CPTPScreen.css'
 
 function CPTPScreen() {
   const { navigateTo, playSound } = useApp()
+  
+  // State untuk modal
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
@@ -24,6 +41,7 @@ function CPTPScreen() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background */}
       <div className="cptp-background">
         <img 
           src="/assets/latar-slide/2.jpg" 
@@ -60,7 +78,7 @@ function CPTPScreen() {
         />
       </div>
 
-      {/* Title */}
+      {/* Judul */}
       <div className="cptp-title">
         <img 
           src="/assets/elemen/Gerak & Gaya.png" 
@@ -69,14 +87,14 @@ function CPTPScreen() {
         />
       </div>
 
-      {/* Content Board */}
+      {/* Board CP & TP */}
       <motion.div 
         className="cptp-board-container"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
-        {/* Close button */}
+        {/* Tombol Close */}
         <motion.img 
           src="/assets/elemen/X.png" 
           alt="Close"
@@ -87,12 +105,15 @@ function CPTPScreen() {
         />
 
         <div className="cptp-board">
+          {/* Header Board */}
           <div className="cptp-board-header">
             <span className="cptp-header-text">CP & TP</span>
             <img src="/assets/elemen/CP & TP.png" alt="CP & TP Icon" className="cptp-header-icon" />
           </div>
 
+          {/* Konten CP & TP */}
           <div className="cptp-content">
+            {/* Bagian A: Capaian Pembelajaran */}
             <div className="cptp-section">
               <h3 className="cptp-section-title">A. Capaian Pembelajaran</h3>
               <p className="cptp-text">
@@ -101,6 +122,7 @@ function CPTPScreen() {
               </p>
             </div>
 
+            {/* Bagian B: Tujuan Pembelajaran */}
             <div className="cptp-section">
               <h3 className="cptp-section-title">B. Tujuan Pembelajaran</h3>
               <ul className="cptp-list">

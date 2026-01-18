@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * MATERI-SCREEN.JSX - HALAMAN MATERI PEMBELAJARAN
+ * ============================================================================
+ * 
+ * Halaman ini menampilkan materi pembelajaran tentang Gaya.
+ * 
+ * Alur:
+ * 1. User memilih topik (Gerak atau Gaya)
+ *    - Gerak: Belum tersedia (segera hadir)
+ *    - Gaya: Tersedia, menampilkan 3 slide materi
+ * 
+ * 2. Setelah memilih Gaya, user dapat melihat:
+ *    - Slide 1: Pengertian Gaya
+ *    - Slide 2: Gaya searah
+ *    - Slide 3: Gaya berlawanan arah
+ * 
+ * ============================================================================
+ */
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
@@ -8,12 +28,28 @@ import './MateriScreen.css'
 
 function MateriScreen() {
   const { navigateTo, playSound } = useApp()
+  
+  /**
+   * currentSlide - Index slide materi yang sedang ditampilkan
+   */
   const [currentSlide, setCurrentSlide] = useState(0)
+  
+  // State untuk modal
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
+  
+  /**
+   * showTopicSelection - Menampilkan halaman pemilihan topik
+   * true = tampilkan pilihan Gerak/Gaya
+   * false = tampilkan konten materi
+   */
   const [showTopicSelection, setShowTopicSelection] = useState(true)
 
+  /**
+   * materiSlides - Data materi tentang Gaya
+   * Setiap slide berisi konten teks yang akan ditampilkan
+   */
   const materiSlides = [
     {
       content: `Gaya adalah dorongan atau tarikan yang diberikan pada suatu benda. Ketika kamu mendorong meja, berarti kamu memberikan gaya dorong pada meja. Ketika kamu menarik tali, berarti kamu memberikan gaya tarik pada tali. Gaya menyebabkan perubahan gerak pada benda.`
@@ -31,6 +67,9 @@ function MateriScreen() {
     action()
   }
 
+  /**
+   * nextSlide - Pindah ke slide berikutnya
+   */
   const nextSlide = () => {
     if (currentSlide < materiSlides.length - 1) {
       playSound('click')
@@ -38,6 +77,9 @@ function MateriScreen() {
     }
   }
 
+  /**
+   * prevSlide - Pindah ke slide sebelumnya
+   */
   const prevSlide = () => {
     if (currentSlide > 0) {
       playSound('click')
@@ -45,14 +87,21 @@ function MateriScreen() {
     }
   }
 
+  /**
+   * handleTopicSelect - Menangani pemilihan topik
+   * @param {string} topic - 'gerak' atau 'gaya'
+   */
   const handleTopicSelect = (topic) => {
     playSound('click')
     if (topic === 'gaya') {
-      setShowTopicSelection(false)
+      setShowTopicSelection(false)  // Tampilkan materi Gaya
     }
-    // Gerak belum tersedia
+    // Gerak belum tersedia, tidak ada aksi
   }
 
+  // =========================================================================
+  // RENDER: Halaman Pemilihan Topik
+  // =========================================================================
   if (showTopicSelection) {
     return (
       <motion.div 
@@ -117,7 +166,9 @@ function MateriScreen() {
               <img src="/assets/elemen/Materi.png" alt="Materi Icon" className="materi-header-icon" />
             </div>
 
+            {/* Pilihan Topik */}
             <div className="topic-selection">
+              {/* Topik Gerak - Disabled (belum tersedia) */}
               <motion.div 
                 className="topic-item disabled"
                 whileHover={{ scale: 1.02 }}
@@ -127,6 +178,7 @@ function MateriScreen() {
                 <span className="topic-status">(Segera Hadir)</span>
               </motion.div>
 
+              {/* Topik Gaya - Tersedia */}
               <motion.div 
                 className="topic-item"
                 onClick={() => handleTopicSelect('gaya')}
@@ -140,6 +192,7 @@ function MateriScreen() {
           </div>
         </motion.div>
 
+        {/* Modals */}
         <AnimatePresence>
           {showProfile && <ProfileModal onClose={() => { playSound('click'); setShowProfile(false) }} />}
           {showSettings && <SettingsModal onClose={() => { playSound('click'); setShowSettings(false) }} />}
@@ -149,6 +202,9 @@ function MateriScreen() {
     )
   }
 
+  // =========================================================================
+  // RENDER: Halaman Konten Materi Gaya
+  // =========================================================================
   return (
     <motion.div 
       className="screen materi-screen"
@@ -197,6 +253,7 @@ function MateriScreen() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
+        {/* Tombol Close - Kembali ke pemilihan topik */}
         <motion.img 
           src="/assets/elemen/X.png" 
           alt="Close"
@@ -206,6 +263,7 @@ function MateriScreen() {
           whileTap={{ scale: 0.9 }}
         />
 
+        {/* Tombol navigasi slide */}
         {currentSlide > 0 && (
           <motion.img 
             src="/assets/elemen/Kembali.png" 
@@ -233,6 +291,7 @@ function MateriScreen() {
             <img src="/assets/elemen/Materi.png" alt="Materi Icon" className="materi-header-icon" />
           </div>
 
+          {/* Konten Materi dengan animasi pergantian */}
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
@@ -245,6 +304,7 @@ function MateriScreen() {
             </motion.div>
           </AnimatePresence>
 
+          {/* Indikator Slide */}
           <div className="slide-indicators">
             {materiSlides.map((_, index) => (
               <span 
@@ -257,6 +317,7 @@ function MateriScreen() {
         </div>
       </motion.div>
 
+      {/* Modals */}
       <AnimatePresence>
         {showProfile && <ProfileModal onClose={() => { playSound('click'); setShowProfile(false) }} />}
         {showSettings && <SettingsModal onClose={() => { playSound('click'); setShowSettings(false) }} />}

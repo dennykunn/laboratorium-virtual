@@ -1,3 +1,20 @@
+/**
+ * ============================================================================
+ * QUIZ-SCREEN.JSX - HALAMAN QUIZ
+ * ============================================================================
+ * 
+ * Halaman quiz berisi 5 soal pilihan ganda tentang magnet.
+ * 
+ * Fitur:
+ * - Soal hanya bisa lanjut jika jawaban BENAR
+ * - Jika salah, siswa harus mencoba lagi
+ * - Setiap jawaban benar mendapat 20 poin
+ * - Total skor maksimal: 100
+ * - Setelah semua soal selesai, pindah ke halaman skor
+ * 
+ * ============================================================================
+ */
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
@@ -6,14 +23,49 @@ import SettingsModal from './modals/SettingsModal'
 import './QuizScreen.css'
 
 function QuizScreen() {
+  // Ambil fungsi dari Context
   const { navigateTo, setQuizScore, playSound } = useApp()
+  
+  // ==========================================================================
+  // STATE
+  // ==========================================================================
+  
+  /**
+   * currentQuestion - Index soal yang sedang ditampilkan (0-4)
+   */
   const [currentQuestion, setCurrentQuestion] = useState(0)
+  
+  /**
+   * score - Skor sementara selama mengerjakan quiz
+   */
   const [score, setScore] = useState(0)
+  
+  /**
+   * showResult - Menampilkan feedback (benar/salah)
+   * Nilai: null, 'correct', atau 'wrong'
+   */
   const [showResult, setShowResult] = useState(null)
+  
+  /**
+   * answered - Menandai apakah soal sudah dijawab
+   * Untuk mencegah klik ganda
+   */
   const [answered, setAnswered] = useState(false)
+  
+  // State untuk modal
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
 
+  /**
+   * questions - Array berisi semua soal quiz
+   * 
+   * Struktur setiap soal:
+   * - question: teks pertanyaan
+   * - options: array pilihan jawaban
+   *   - label: huruf (A, B, C, D)
+   *   - text: teks jawaban
+   *   - correct: true jika ini jawaban benar
+   */
   const questions = [
     {
       question: 'Sebutkan salah satu benda yang dapat ditarik oleh magnet....',
@@ -62,37 +114,49 @@ function QuizScreen() {
     },
   ]
 
+  /**
+   * handleAnswer - Menangani saat user memilih jawaban
+   * @param {object} option - Objek jawaban yang dipilih
+   */
   const handleAnswer = (option) => {
+    // Cegah klik ganda jika sudah dijawab
     if (answered) return
 
     playSound('click')
     setAnswered(true)
+    
+    // Cek apakah jawaban benar
     const isCorrect = option.correct
 
     if (isCorrect) {
-      setScore(score + 20)
-      setShowResult('correct')
-      playSound('success')
+      // Jawaban BENAR
+      setScore(score + 20)       // Tambah skor
+      setShowResult('correct')   // Tampilkan feedback benar
+      playSound('success')       // Mainkan suara sukses
     } else {
-      setShowResult('wrong')
-      playSound('error')
+      // Jawaban SALAH
+      setShowResult('wrong')     // Tampilkan feedback salah
+      playSound('error')         // Mainkan suara error
     }
 
+    // Setelah 1.5 detik, lanjutkan
     setTimeout(() => {
-      setShowResult(null)
-      setAnswered(false)
+      setShowResult(null)   // Sembunyikan feedback
+      setAnswered(false)    // Reset status answered
 
       if (currentQuestion < questions.length - 1) {
+        // Masih ada soal berikutnya
         if (isCorrect) {
-          setCurrentQuestion(currentQuestion + 1)
+          setCurrentQuestion(currentQuestion + 1)  // Pindah ke soal berikutnya
         }
-        // Jika salah, tetap di pertanyaan yang sama
+        // Jika salah, tetap di soal yang sama (harus coba lagi)
       } else {
+        // Ini soal terakhir
         if (isCorrect) {
-          // Quiz selesai
-          setQuizScore(score + 20)
-          navigateTo('score')
+          setQuizScore(score + 20)  // Simpan skor ke context
+          navigateTo('score')       // Pindah ke halaman skor
         }
+        // Jika salah di soal terakhir, tetap harus jawab benar
       }
     }, 1500)
   }
@@ -109,11 +173,12 @@ function QuizScreen() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background - Gambar lab */}
       <div className="quiz-background">
         <img src="/assets/latar-slide/5.jpg" alt="Lab Background" className="quiz-bg-image" />
       </div>
 
-      {/* Header Left - Menu */}
+      {/* Tombol kembali ke menu praktikum */}
       <div className="quiz-header-left">
         <motion.img 
           src="/assets/elemen/Balik Menu Utama.png" 
@@ -125,7 +190,7 @@ function QuizScreen() {
         />
       </div>
 
-      {/* Header Right */}
+      {/* Header Icons */}
       <div className="header-icons">
         <motion.img 
           src="/assets/elemen/Informasi.png" 
@@ -145,7 +210,7 @@ function QuizScreen() {
         />
       </div>
 
-      {/* Quiz Board */}
+      {/* Board Quiz */}
       <motion.div 
         className="quiz-board-container"
         initial={{ y: 50, opacity: 0 }}
@@ -155,17 +220,20 @@ function QuizScreen() {
         <div className="quiz-board">
           <h2 className="quiz-title">QUIZ TIME!</h2>
           
+          {/* Konten soal dengan animasi pergantian */}
           <AnimatePresence mode="wait">
             <motion.div
-              key={currentQuestion}
+              key={currentQuestion}  // Key berubah = animasi ulang
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
             >
+              {/* Teks pertanyaan */}
               <p className="quiz-question">
                 {currentQuestion + 1}. {questions[currentQuestion].question}
               </p>
 
+              {/* Grid pilihan jawaban */}
               <div className="quiz-options">
                 {questions[currentQuestion].options.map((option, index) => (
                   <motion.div
@@ -175,9 +243,11 @@ function QuizScreen() {
                     whileHover={{ scale: answered ? 1 : 1.02 }}
                     whileTap={{ scale: answered ? 1 : 0.98 }}
                   >
+                    {/* Lingkaran huruf (A, B, C, D) */}
                     <span className={`option-letter ${option.label.toLowerCase()}`}>
                       {option.label}
                     </span>
+                    {/* Teks jawaban */}
                     <span className="option-text">{option.text}</span>
                   </motion.div>
                 ))}
@@ -185,7 +255,7 @@ function QuizScreen() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Progress */}
+          {/* Progress bar dan skor */}
           <div className="quiz-progress">
             <span>Pertanyaan {currentQuestion + 1} dari {questions.length}</span>
             <span>Skor: {score}</span>
@@ -193,7 +263,7 @@ function QuizScreen() {
         </div>
       </motion.div>
 
-      {/* Result Animation */}
+      {/* Overlay Hasil (Benar/Salah) */}
       <AnimatePresence>
         {showResult && (
           <motion.div 

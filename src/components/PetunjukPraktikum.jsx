@@ -1,3 +1,21 @@
+/**
+ * ============================================================================
+ * PETUNJUK-PRAKTIKUM.JSX - HALAMAN PETUNJUK PRAKTIKUM
+ * ============================================================================
+ * 
+ * Halaman ini menampilkan petunjuk cara melakukan praktikum virtual.
+ * Terdiri dari 2 slide:
+ * 
+ * Slide 1: Alat dan Bahan
+ * - Daftar benda yang digunakan dalam praktikum
+ * - Keterangan fungsi setiap benda
+ * 
+ * Slide 2: Langkah Praktikum
+ * - Petunjuk step-by-step melakukan praktikum
+ * 
+ * ============================================================================
+ */
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
@@ -8,16 +26,30 @@ import './PetunjukPraktikum.css'
 
 function PetunjukPraktikum() {
   const { navigateTo, playSound } = useApp()
+  
+  /**
+   * currentSlide - Index slide yang sedang ditampilkan (0 atau 1)
+   */
   const [currentSlide, setCurrentSlide] = useState(0)
+  
+  // State untuk modal
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
 
+  /**
+   * petunjukSlides - Data untuk setiap slide petunjuk
+   * 
+   * Slide pertama berisi JSX untuk menampilkan alat dan bahan
+   * Slide kedua berisi JSX untuk langkah-langkah praktikum
+   */
   const petunjukSlides = [
     {
       title: 'PRAKTIKUM GAYA',
+      // Konten berupa JSX (bukan string biasa)
       content: (
         <div className="petunjuk-content-grid">
+          {/* Kolom Kiri: Daftar Alat dan Bahan */}
           <div className="alat-bahan">
             <h4>Alat dan Bahan</h4>
             <div className="bahan-list">
@@ -34,6 +66,8 @@ function PetunjukPraktikum() {
               </div>
             </div>
           </div>
+          
+          {/* Kolom Kanan: Keterangan */}
           <div className="keterangan">
             <h4>Keterangan Alat dan Bahan</h4>
             <div className="keterangan-items">
@@ -54,6 +88,7 @@ function PetunjukPraktikum() {
       title: 'LANGKAH PRAKTIKUM',
       content: (
         <div className="langkah-content">
+          {/* Daftar langkah-langkah praktikum */}
           <ol className="langkah-list">
             <li>Pertama, klik magnet yang ada di meja untuk mengambil magnet</li>
             <li>Kedua, dekatkan magnet ke setiap benda (paku, pensil, penggaris besi, penghapus, botol plastik, kertas)</li>
@@ -92,10 +127,12 @@ function PetunjukPraktikum() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background */}
       <div className="petunjuk-background">
         <img src="/assets/latar-slide/2.jpg" alt="Background" className="petunjuk-bg-image" />
       </div>
 
+      {/* Header Icons */}
       <div className="header-icons">
         <motion.img 
           src="/assets/elemen/Informasi.png" 
@@ -123,16 +160,19 @@ function PetunjukPraktikum() {
         />
       </div>
 
+      {/* Judul */}
       <div className="petunjuk-title">
         <img src="/assets/elemen/Gerak & Gaya.png" alt="Gerak & Gaya" className="title-image" />
       </div>
 
+      {/* Board Petunjuk */}
       <motion.div 
         className="petunjuk-board-container"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
       >
+        {/* Tombol Close - Kembali ke menu praktikum */}
         <motion.img 
           src="/assets/elemen/X.png" 
           alt="Close"
@@ -142,6 +182,7 @@ function PetunjukPraktikum() {
           whileTap={{ scale: 0.9 }}
         />
 
+        {/* Tombol Navigasi Slide */}
         {currentSlide > 0 && (
           <motion.img 
             src="/assets/elemen/Kembali.png" 
@@ -164,11 +205,13 @@ function PetunjukPraktikum() {
         )}
 
         <div className="petunjuk-board">
+          {/* Header Board */}
           <div className="petunjuk-board-header">
             <span className="petunjuk-header-text">Petunjuk Praktikum</span>
             <img src="/assets/elemen/Petunjuk Praktikum.png" alt="Petunjuk Icon" className="petunjuk-header-icon" />
           </div>
 
+          {/* Konten Petunjuk dengan animasi pergantian */}
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
@@ -182,6 +225,7 @@ function PetunjukPraktikum() {
             </motion.div>
           </AnimatePresence>
 
+          {/* Indikator Slide */}
           <div className="slide-indicators">
             {petunjukSlides.map((_, index) => (
               <span 
@@ -194,6 +238,7 @@ function PetunjukPraktikum() {
         </div>
       </motion.div>
 
+      {/* Modals */}
       <AnimatePresence>
         {showProfile && <ProfileModal onClose={() => { playSound('click'); setShowProfile(false) }} />}
         {showSettings && <SettingsModal onClose={() => { playSound('click'); setShowSettings(false) }} />}

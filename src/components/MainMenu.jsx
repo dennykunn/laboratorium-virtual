@@ -1,3 +1,17 @@
+/**
+ * ============================================================================
+ * MAIN-MENU.JSX - HALAMAN MENU UTAMA
+ * ============================================================================
+ * 
+ * Halaman ini menampilkan 4 menu pilihan:
+ * 1. Panduan - Cara menggunakan aplikasi
+ * 2. CP & TP - Capaian Pembelajaran dan Tujuan Pembelajaran
+ * 3. Materi - Materi pembelajaran tentang Gaya
+ * 4. Praktikum - Simulasi laboratorium virtual
+ * 
+ * ============================================================================
+ */
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
@@ -7,18 +21,54 @@ import ExitModal from './modals/ExitModal'
 import './MainMenu.css'
 
 function MainMenu() {
+  // Ambil fungsi navigasi dan playSound dari Context
   const { navigateTo, playSound } = useApp()
+  
+  // State untuk kontrol modal
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
 
+  /**
+   * menuItems - Daftar menu yang akan ditampilkan
+   * Menggunakan array agar mudah di-loop dengan map()
+   * 
+   * Properti setiap item:
+   * - id: identifier unik
+   * - label: teks yang ditampilkan
+   * - icon: path ke gambar ikon
+   * - screen: nama halaman tujuan saat diklik
+   */
   const menuItems = [
-    { id: 'panduan', label: 'Panduan', icon: '/assets/elemen/Panduan.png', screen: 'panduan' },
-    { id: 'cptp', label: 'CP & TP', icon: '/assets/elemen/CP & TP.png', screen: 'cptp' },
-    { id: 'materi', label: 'Materi', icon: '/assets/elemen/Materi.png', screen: 'materi' },
-    { id: 'praktikum', label: 'Praktikum', icon: '/assets/elemen/Praktikum (Putih).png', screen: 'praktikum-menu' },
+    { 
+      id: 'panduan', 
+      label: 'Panduan', 
+      icon: '/assets/elemen/Panduan.png', 
+      screen: 'panduan' 
+    },
+    { 
+      id: 'cptp', 
+      label: 'CP & TP', 
+      icon: '/assets/elemen/CP & TP.png', 
+      screen: 'cptp' 
+    },
+    { 
+      id: 'materi', 
+      label: 'Materi', 
+      icon: '/assets/elemen/Materi.png', 
+      screen: 'materi' 
+    },
+    { 
+      id: 'praktikum', 
+      label: 'Praktikum', 
+      icon: '/assets/elemen/Praktikum (Putih).png', 
+      screen: 'praktikum-menu' 
+    },
   ]
 
+  /**
+   * handleButtonClick - Handler untuk klik tombol dengan sound
+   */
   const handleButtonClick = (action) => {
     playSound('click')
     action()
@@ -31,6 +81,7 @@ function MainMenu() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background */}
       <div className="menu-background">
         <img 
           src="/assets/latar-slide/2.jpg" 
@@ -39,7 +90,7 @@ function MainMenu() {
         />
       </div>
 
-      {/* Header Icons */}
+      {/* Header Icons (Info, Settings, Exit) */}
       <div className="header-icons">
         <motion.img 
           src="/assets/elemen/Informasi.png" 
@@ -67,7 +118,7 @@ function MainMenu() {
         />
       </div>
 
-      {/* Title */}
+      {/* Judul "Gerak & Gaya" */}
       <div className="menu-title">
         <img 
           src="/assets/elemen/Gerak & Gaya.png" 
@@ -76,14 +127,14 @@ function MainMenu() {
         />
       </div>
 
-      {/* Main Menu Board */}
+      {/* Board Menu Utama */}
       <motion.div 
         className="menu-board-container"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ y: 50, opacity: 0 }}      // Mulai dari bawah
+        animate={{ y: 0, opacity: 1 }}       // Naik ke posisi normal
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        {/* Close button */}
+        {/* Tombol X untuk kembali ke Start Screen */}
         <motion.img 
           src="/assets/elemen/X.png" 
           alt="Close"
@@ -94,23 +145,33 @@ function MainMenu() {
         />
 
         <div className="menu-board">
-          {/* Decorative vines */}
+          {/* Dekorasi tanaman merambat (disembunyikan) */}
           <div className="vine-decoration left"></div>
           <div className="vine-decoration right"></div>
           
+          {/* Header "Menu Utama" */}
           <div className="menu-board-header">
             <span className="menu-utama-text">Menu Utama</span>
           </div>
 
+          {/* Grid berisi 4 menu item */}
           <div className="menu-items">
+            {/**
+             * map() - Mengulang setiap item dalam array menuItems
+             * dan menghasilkan komponen untuk masing-masing item
+             * 
+             * index digunakan untuk memberikan delay animasi berbeda
+             */}
             {menuItems.map((item, index) => (
               <motion.div
-                key={item.id}
+                key={item.id}  // Key unik untuk React
                 className="menu-item"
                 onClick={() => handleButtonClick(() => navigateTo(item.screen))}
+                // Animasi masuk dengan delay bertahap
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
+                transition={{ delay: 0.3 + index * 0.1 }}  // Delay berbeda tiap item
+                // Animasi hover dan tap
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
