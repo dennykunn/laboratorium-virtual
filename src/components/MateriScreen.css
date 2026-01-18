@@ -2,9 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 80px;
+  justify-content: center;
   position: relative;
   overflow: hidden;
+  padding: 80px 20px 70px;
 }
 
 .materi-background {
@@ -26,36 +27,44 @@
   position: relative;
   z-index: 10;
   margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 .materi-title .title-image {
-  width: 400px;
-  max-width: 70vw;
+  width: min(350px, 70vw);
   height: auto;
-  filter: drop-shadow(4px 6px 10px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(4px 6px 12px rgba(0, 0, 0, 0.3));
 }
 
 .materi-board-container {
   position: relative;
   z-index: 10;
-  width: 90%;
-  max-width: 900px;
+  width: min(90%, 850px);
+  max-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
 }
 
 .materi-close-btn {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -12px;
+  right: -12px;
   z-index: 20;
+  width: 55px !important;
+  height: 55px !important;
 }
 
 .materi-board {
   background: linear-gradient(180deg, #C4A35A 0%, #A67C4A 30%, #8B5A2B 100%);
   border-radius: 25px;
-  padding: 20px 30px 30px;
+  padding: 20px 25px 25px;
   box-shadow: 
     0 15px 40px rgba(0, 0, 0, 0.4),
     inset 0 2px 10px rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .materi-board-header {
@@ -65,10 +74,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  margin: 0 auto 20px;
+  gap: 12px;
+  margin: 0 auto 15px;
   width: fit-content;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
 }
 
 .materi-header-text {
@@ -87,8 +97,10 @@
 .materi-content {
   background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
   border-radius: 15px;
-  padding: 30px;
-  min-height: 200px;
+  padding: 25px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -96,7 +108,7 @@
 
 .materi-text {
   font-family: 'Fredoka', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: white;
   line-height: 1.7;
   text-align: justify;
@@ -108,26 +120,27 @@
   display: flex;
   justify-content: center;
   gap: 30px;
-  padding: 30px;
+  padding: 25px;
 }
 
 .topic-item {
   background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
   border: 4px solid white;
   border-radius: 20px;
-  padding: 30px 40px;
+  padding: 25px 35px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  min-width: 200px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: box-shadow 0.3s ease;
+  min-width: 160px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .topic-item:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
 }
 
 .topic-item.disabled {
@@ -135,37 +148,91 @@
   cursor: not-allowed;
 }
 
+.topic-item.disabled:hover {
+  transform: none;
+}
+
 .topic-icon {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  filter: drop-shadow(2px 3px 5px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
 }
 
 .topic-label {
   font-family: 'Bubblegum Sans', cursive;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: white;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .topic-status {
   font-family: 'Fredoka', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Responsive */
 @media (max-width: 768px) {
+  .materi-screen {
+    padding: 70px 15px 60px;
+  }
+  
   .topic-selection {
     flex-direction: column;
     gap: 20px;
+    padding: 20px;
   }
   
   .topic-item {
     min-width: auto;
+    padding: 20px 30px;
+  }
+  
+  .topic-icon {
+    width: 70px;
+    height: 70px;
   }
   
   .materi-text {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .materi-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .materi-header-text {
+    font-size: 1.3rem;
+  }
+  
+  .materi-header-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .topic-label {
+    font-size: 1.2rem;
+  }
+  
+  .topic-icon {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .materi-text {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
+  .materi-close-btn {
+    width: 45px !important;
+    height: 45px !important;
+  }
+  
+  .materi-title .title-image {
+    width: min(280px, 80vw);
   }
 }

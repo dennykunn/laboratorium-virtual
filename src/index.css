@@ -17,10 +17,6 @@
   --cream: #F5F0E1;
   --text-dark: #333;
   --text-light: #fff;
-  
-  /* Fixed Desktop Dimensions */
-  --design-width: 1920;
-  --design-height: 1080;
 }
 
 html, body {
@@ -40,27 +36,32 @@ body {
 #root {
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
 }
 
-/* Fixed Desktop Container - Always maintains 16:9 aspect ratio */
+/* App Container - Full Screen */
 .app-container {
-  width: 1920px;
-  height: 1080px;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   overflow: hidden;
   background: #87CEEB;
-  transform-origin: center center;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Screen base */
+.screen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
 }
 
 /* Button Styles */
 .btn-icon {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   cursor: pointer;
   transition: transform 0.2s ease, filter 0.2s ease;
   filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
@@ -68,7 +69,7 @@ body {
 
 .btn-icon:hover {
   transform: scale(1.1);
-  filter: drop-shadow(2px 6px 8px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(2px 6px 10px rgba(0, 0, 0, 0.4));
 }
 
 .btn-icon:active {
@@ -78,35 +79,77 @@ body {
 /* Header Icons */
 .header-icons {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 15px;
+  right: 15px;
   display: flex;
-  gap: 15px;
+  gap: 12px;
   z-index: 100;
 }
 
 .header-left {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 15px;
+  left: 15px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
   z-index: 100;
 }
 
 .university-logo {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
 }
 
 .university-text {
   font-family: 'Fredoka', sans-serif;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--primary-green);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
   line-height: 1.2;
+}
+
+/* Bottom Controls (Volume + Fullscreen) */
+.bottom-controls {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  display: flex;
+  gap: 12px;
+  z-index: 999;
+}
+
+.control-btn {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s ease;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+}
+
+.fullscreen-btn {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #333;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.fullscreen-btn:hover {
+  background: #fff;
+  transform: scale(1.1);
 }
 
 /* Modal Overlay */
@@ -116,17 +159,19 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 15px;
 }
 
 .modal-content {
   position: relative;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-close {
@@ -136,67 +181,14 @@ body {
   z-index: 10;
 }
 
-/* Board/Panel Styles */
-.board-panel {
-  background: linear-gradient(180deg, #D4A574 0%, #C49A6C 50%, #B8906A 100%);
-  border: 8px solid #8B5A2B;
-  border-radius: 20px;
-  box-shadow: 
-    inset 0 2px 10px rgba(255, 255, 255, 0.3),
-    0 10px 30px rgba(0, 0, 0, 0.3);
-  padding: 30px;
-}
-
-.board-content {
-  background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
-  border-radius: 15px;
-  padding: 25px 30px;
-  color: white;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Title Styles */
-.title-gerak-gaya {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.title-gerak {
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: 4rem;
-  color: #f5a623;
-  text-shadow: 
-    3px 3px 0px #c4850d,
-    -1px -1px 0px #ffcc00;
-  letter-spacing: 2px;
-}
-
-.title-and {
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: 4rem;
-  color: #e74c3c;
-  margin: 0 10px;
-  text-shadow: 
-    2px 2px 0px #c0392b;
-}
-
-.title-gaya {
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: 4rem;
-  color: #27ae60;
-  text-shadow: 
-    3px 3px 0px #1e8449,
-    -1px -1px 0px #2ecc71;
-  letter-spacing: 2px;
-}
-
 /* Navigation Arrows */
 .nav-arrow {
   width: 50px;
   height: 50px;
   cursor: pointer;
   transition: transform 0.2s ease;
-  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(2px 3px 5px rgba(0, 0, 0, 0.3));
+  z-index: 15;
 }
 
 .nav-arrow:hover {
@@ -221,104 +213,6 @@ body {
 .nav-arrow.right:hover {
   transform: translateY(-50%) scale(1.15);
 }
-
-/* Menu Button Styles */
-.menu-button {
-  background: linear-gradient(180deg, #3a9d9d 0%, #2c8a8a 100%);
-  border: 4px solid white;
-  border-radius: 20px;
-  padding: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 180px;
-  min-height: 180px;
-}
-
-.menu-button:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-.menu-button img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 15px;
-}
-
-.menu-button span {
-  font-family: 'Bubblegum Sans', cursive;
-  font-size: 1.5rem;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Wooden Frame */
-.wooden-frame {
-  background: linear-gradient(180deg, #C4A35A 0%, #A67C4A 50%, #8B5A2B 100%);
-  border-radius: 25px;
-  padding: 20px;
-  box-shadow: 
-    0 15px 40px rgba(0, 0, 0, 0.4),
-    inset 0 2px 10px rgba(255, 255, 255, 0.2);
-  position: relative;
-}
-
-.wooden-frame::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  border: 3px solid rgba(139, 90, 43, 0.5);
-  border-radius: 20px;
-  pointer-events: none;
-}
-
-/* Lab Background */
-.lab-background {
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 100%;
-}
-
-/* Quiz Styles */
-.quiz-option {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px 25px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-  border-radius: 10px;
-}
-
-.quiz-option:hover {
-  transform: scale(1.02);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.quiz-option-letter {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-}
-
-.quiz-option-letter.a { background: #3498db; }
-.quiz-option-letter.b { background: #f39c12; }
-.quiz-option-letter.c { background: #e74c3c; }
-.quiz-option-letter.d { background: #1abc9c; }
 
 /* Slide Indicators */
 .slide-indicators {
@@ -355,7 +249,7 @@ body {
 @keyframes slideUp {
   from { 
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to { 
     opacity: 1;
@@ -365,54 +259,75 @@ body {
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: scale(1.03); }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.4s ease-out;
 }
 
 .animate-slideUp {
-  animation: slideUp 0.5s ease-out;
+  animation: slideUp 0.4s ease-out;
 }
 
 .animate-pulse {
   animation: pulse 2s ease-in-out infinite;
 }
 
-.animate-bounce {
-  animation: bounce 1s ease-in-out infinite;
-}
-
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-  .btn-icon:hover {
-    transform: none;
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .btn-icon {
+    width: 45px;
+    height: 45px;
   }
   
-  .btn-icon:active {
-    transform: scale(0.95);
+  .header-icons {
+    top: 10px;
+    right: 10px;
+    gap: 8px;
+  }
+  
+  .header-left {
+    top: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+  
+  .bottom-controls {
+    bottom: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+  
+  .control-btn,
+  .fullscreen-btn {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .fullscreen-btn {
+    font-size: 1.2rem;
+  }
+  
+  .nav-arrow {
+    width: 40px;
+    height: 40px;
   }
 }
 
-/* Mute button fixed position */
-.mute-toggle {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 999;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.3));
-  transition: transform 0.2s ease;
-}
-
-.mute-toggle:hover {
-  transform: scale(1.1);
+@media (max-width: 480px) {
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .university-text {
+    font-size: 0.8rem;
+  }
+  
+  .control-btn,
+  .fullscreen-btn {
+    width: 38px;
+    height: 38px;
+  }
 }

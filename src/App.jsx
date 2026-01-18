@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, createContext, useContext } from 'react'
+import { useState, useEffect, createContext, useContext } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import LoadingScreen from './components/LoadingScreen'
 import StartScreen from './components/StartScreen'
@@ -19,34 +19,30 @@ export const AppContext = createContext()
 
 export const useApp = () => useContext(AppContext)
 
-// Hook untuk scaling container
-const useContainerScale = () => {
-  const [scale, setScale] = useState(1)
-  const containerRef = useRef(null)
+// Fullscreen helper functions
+const requestFullscreen = () => {
+  const elem = document.documentElement
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen()
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen()
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen()
+  }
+}
 
-  useEffect(() => {
-    const calculateScale = () => {
-      const designWidth = 1920
-      const designHeight = 1080
-      
-      const windowWidth = window.innerWidth
-      const windowHeight = window.innerHeight
-      
-      const scaleX = windowWidth / designWidth
-      const scaleY = windowHeight / designHeight
-      
-      // Use the smaller scale to fit the container
-      const newScale = Math.min(scaleX, scaleY)
-      setScale(newScale)
-    }
+const exitFullscreen = () => {
+  if (document.exitFullscreen) {
+    document.exitFullscreen()
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen()
+  } else if (document.msExitFullscreen) {
+    document.msExitFullscreen()
+  }
+}
 
-    calculateScale()
-    window.addEventListener('resize', calculateScale)
-    
-    return () => window.removeEventListener('resize', calculateScale)
-  }, [])
-
-  return { scale, containerRef }
+const isFullscreen = () => {
+  return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement)
 }
 
 function App() {
@@ -54,14 +50,37 @@ function App() {
   const [isMuted, setIsMuted] = useState(false)
   const [quizScore, setQuizScore] = useState(0)
   const [audioInitialized, setAudioInitialized] = useState(false)
-  const { scale, containerRef } = useContainerScale()
+  const [isFullscreenMode, setIsFullscreenMode] = useState(false)
 
-  // Initialize sounds on first user interaction
+  // Listen for fullscreen changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreenMode(isFullscreen())
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange)
+    document.addEventListener('msfullscreenchange', handleFullscreenChange)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange)
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange)
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange)
+    }
+  }, [])
+
+  // Initialize sounds and request fullscreen on first user interaction
   useEffect(() => {
     const handleFirstInteraction = () => {
       if (!audioInitialized) {
         initSounds()
         setAudioInitialized(true)
+        
+        // Request fullscreen on first interaction
+        if (!isFullscreen()) {
+          requestFullscreen()
+        }
+        
         document.removeEventListener('click', handleFirstInteraction)
         document.removeEventListener('touchstart', handleFirstInteraction)
       }
@@ -86,6 +105,11 @@ function App() {
     if (currentScreen !== 'loading' && audioInitialized && !isMuted) {
       playBgMusic()
     }
+    return () => {
+      if (currentScreen === 'loading') {
+        stopBgMusic()
+      }
+    }
   }, [currentScreen, audioInitialized, isMuted])
 
   const navigateTo = (screen) => {
@@ -99,7 +123,22 @@ function App() {
     if (audioInitialized) {
       playSound('click')
     }
-    setIsMuted(!isMuted)
+    const newMuted = !isMuted
+    setIsMuted(newMuted)
+    if (!newMuted && currentScreen !== 'loading') {
+      setTimeout(() => playBgMusic(), 100)
+    }
+  }
+
+  const toggleFullscreen = () => {
+    if (audioInitialized) {
+      playSound('click')
+    }
+    if (isFullscreen()) {
+      exitFullscreen()
+    } else {
+      requestFullscreen()
+    }
   }
 
   const contextValue = {
@@ -110,6 +149,8 @@ function App() {
     quizScore,
     setQuizScore,
     audioInitialized,
+    isFullscreenMode,
+    toggleFullscreen,
     playSound: (sound) => audioInitialized && playSound(sound)
   }
 
@@ -144,29 +185,36 @@ function App() {
 
   return (
     <AppContext.Provider value={contextValue}>
-      <div 
-        ref={containerRef}
-        className="app-container"
-        style={{
-          transform: `scale(${scale})`,
-        }}
-      >
+      <div className="app-container">
         <AnimatePresence mode="wait">
           {renderScreen()}
         </AnimatePresence>
 
-        {/* Mute Toggle Button - Always visible except on loading */}
+        {/* Bottom Left Controls */}
         {currentScreen !== 'loading' && (
-          <motion.img 
-            src={isMuted ? '/assets/elemen/Volume Mati.png' : '/assets/elemen/Volume Hidup.png'}
-            alt="Toggle Sound"
-            className="mute-toggle"
-            onClick={toggleMute}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          />
+          <div className="bottom-controls">
+            <motion.img 
+              src={isMuted ? '/assets/elemen/Volume Mati.png' : '/assets/elemen/Volume Hidup.png'}
+              alt="Toggle Sound"
+              className="control-btn"
+              onClick={toggleMute}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+            />
+            <motion.div
+              className="fullscreen-btn"
+              onClick={toggleFullscreen}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              title={isFullscreenMode ? 'Exit Fullscreen' : 'Fullscreen'}
+            >
+              {isFullscreenMode ? '⊠' : '⛶'}
+            </motion.div>
+          </div>
         )}
       </div>
     </AppContext.Provider>

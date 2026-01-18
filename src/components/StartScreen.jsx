@@ -33,7 +33,7 @@ function StartScreen() {
       </div>
 
       {/* Header Left - University Logo */}
-      <div className="header-left">
+      {/* <div className="header-left">
         <img 
           src="/assets/latar-slide/1.jpg" 
           alt="Logo UMRI"
@@ -49,7 +49,7 @@ function StartScreen() {
         <div className="university-text">
           UNIVERSITAS<br />MUHAMMADIYAH<br />RIAU
         </div>
-      </div>
+      </div> */}
 
       {/* Header Right - Action Icons */}
       <div className="header-icons">

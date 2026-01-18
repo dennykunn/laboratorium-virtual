@@ -1,10 +1,9 @@
 import { useEffect, useRef, useCallback } from 'react'
 
-// Web Audio API untuk generate sounds tanpa file external
+// Web Audio API untuk generate sounds
 let audioContext = null
-let bgMusicOscillator = null
-let bgMusicGain = null
 let isMutedGlobal = false
+let bgMusicInterval = null
 
 const createAudioContext = () => {
   if (!audioContext) {
@@ -13,8 +12,8 @@ const createAudioContext = () => {
   return audioContext
 }
 
-// Generate a simple beep sound
-const playBeep = (frequency = 440, duration = 0.1, volume = 0.3, type = 'sine') => {
+// Generate a note with proper envelope
+const playNote = (frequency, duration, volume = 0.3, type = 'sine', delay = 0) => {
   if (isMutedGlobal) return
   
   try {
@@ -27,11 +26,14 @@ const playBeep = (frequency = 440, duration = 0.1, volume = 0.3, type = 'sine') 
     
     oscillator.frequency.value = frequency
     oscillator.type = type
-    gainNode.gain.setValueAtTime(volume, ctx.currentTime)
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration)
     
-    oscillator.start(ctx.currentTime)
-    oscillator.stop(ctx.currentTime + duration)
+    const startTime = ctx.currentTime + delay
+    gainNode.gain.setValueAtTime(0, startTime)
+    gainNode.gain.linearRampToValueAtTime(volume, startTime + 0.02)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
+    
+    oscillator.start(startTime)
+    oscillator.stop(startTime + duration)
   } catch (e) {
     console.log('Audio not supported')
   }
@@ -43,69 +45,83 @@ export const playSound = (soundName) => {
   
   switch (soundName) {
     case 'click':
-      playBeep(800, 0.08, 0.2, 'square')
-      setTimeout(() => playBeep(1000, 0.05, 0.15, 'square'), 50)
+      playNote(700, 0.06, 0.12, 'sine')
+      playNote(900, 0.05, 0.1, 'sine', 0.03)
       break
     case 'hover':
-      playBeep(600, 0.03, 0.1, 'sine')
+      playNote(550, 0.03, 0.06, 'sine')
       break
     case 'success':
-      playBeep(523, 0.15, 0.25, 'sine') // C
-      setTimeout(() => playBeep(659, 0.15, 0.25, 'sine'), 100) // E
-      setTimeout(() => playBeep(784, 0.2, 0.25, 'sine'), 200) // G
+      playNote(523, 0.15, 0.18, 'sine')
+      playNote(659, 0.15, 0.18, 'sine', 0.12)
+      playNote(784, 0.15, 0.18, 'sine', 0.24)
+      playNote(1047, 0.3, 0.2, 'sine', 0.36)
       break
     case 'error':
-      playBeep(200, 0.2, 0.3, 'sawtooth')
-      setTimeout(() => playBeep(150, 0.3, 0.25, 'sawtooth'), 150)
+      playNote(280, 0.15, 0.18, 'triangle')
+      playNote(220, 0.2, 0.15, 'triangle', 0.12)
       break
     case 'transition':
-      playBeep(400, 0.1, 0.15, 'sine')
-      setTimeout(() => playBeep(500, 0.1, 0.15, 'sine'), 80)
-      setTimeout(() => playBeep(600, 0.15, 0.15, 'sine'), 160)
+      playNote(350, 0.08, 0.1, 'sine')
+      playNote(450, 0.08, 0.1, 'sine', 0.06)
+      playNote(550, 0.1, 0.1, 'sine', 0.12)
       break
     default:
-      playBeep(440, 0.1, 0.2, 'sine')
+      playNote(440, 0.1, 0.12, 'sine')
   }
 }
 
-// Background music using oscillators (simple ambient sound)
-let bgMusicInterval = null
+// Pleasant background music - Soft and cheerful
+const playBackgroundLoop = () => {
+  if (isMutedGlobal) return
+  
+  try {
+    // Simple, pleasant melody - soft xylophone style
+    const melody = [
+      { note: 392, dur: 0.4 },   // G4
+      { note: 440, dur: 0.4 },   // A4
+      { note: 494, dur: 0.4 },   // B4
+      { note: 523, dur: 0.6 },   // C5
+      { note: 0, dur: 0.3 },     // Rest
+      { note: 494, dur: 0.3 },   // B4
+      { note: 440, dur: 0.3 },   // A4
+      { note: 392, dur: 0.5 },   // G4
+      { note: 0, dur: 0.4 },     // Rest
+      { note: 330, dur: 0.4 },   // E4
+      { note: 392, dur: 0.4 },   // G4
+      { note: 440, dur: 0.5 },   // A4
+      { note: 392, dur: 0.6 },   // G4
+      { note: 0, dur: 0.5 },     // Rest
+    ]
+    
+    let time = 0
+    melody.forEach((item) => {
+      if (item.note > 0) {
+        // Main melody - soft bell/xylophone sound
+        playNote(item.note, item.dur * 0.85, 0.08, 'sine', time)
+        // Soft harmony
+        playNote(item.note * 1.5, item.dur * 0.6, 0.03, 'sine', time + 0.02)
+      }
+      time += item.dur
+    })
+    
+  } catch (e) {
+    console.log('Background music error')
+  }
+}
 
 export const playBgMusic = () => {
   if (isMutedGlobal || bgMusicInterval) return
   
-  try {
-    const ctx = createAudioContext()
-    
-    // Create a simple ambient background sound
-    const playAmbientNote = () => {
-      if (isMutedGlobal) return
-      
-      const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00] // C4 to A4
-      const note = notes[Math.floor(Math.random() * notes.length)]
-      
-      const oscillator = ctx.createOscillator()
-      const gainNode = ctx.createGain()
-      
-      oscillator.connect(gainNode)
-      gainNode.connect(ctx.destination)
-      
-      oscillator.frequency.value = note
-      oscillator.type = 'sine'
-      gainNode.gain.setValueAtTime(0.03, ctx.currentTime)
-      gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 2)
-      
-      oscillator.start(ctx.currentTime)
-      oscillator.stop(ctx.currentTime + 2)
+  // Play immediately
+  playBackgroundLoop()
+  
+  // Repeat every 6 seconds
+  bgMusicInterval = setInterval(() => {
+    if (!isMutedGlobal) {
+      playBackgroundLoop()
     }
-    
-    // Play ambient notes at intervals
-    bgMusicInterval = setInterval(playAmbientNote, 3000)
-    playAmbientNote() // Play first note immediately
-    
-  } catch (e) {
-    console.log('Background music not supported')
-  }
+  }, 6000)
 }
 
 export const stopBgMusic = () => {
@@ -127,7 +143,6 @@ export const setMuted = (muted) => {
 }
 
 export const initSounds = () => {
-  // Initialize audio context on first user interaction
   createAudioContext()
 }
 
