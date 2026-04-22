@@ -57,25 +57,29 @@ function MainMenu() {
       {/* Menu Board */}
       <motion.div className="relative z-10 lg:max-w-3xl max-w-lg max-h-fit"
         initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.5 }}> 
-          {/* Header */}
-          <img src="/assets/elemen/Papan Menu Utama.png" alt="Menu Utama"
-            className="w-full h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]" />
+        transition={{ delay: 0.2, duration: 0.5 }}>
+        {/* Header */}
+        <img src="/assets/elemen/Papan Menu Utama.png" alt="Menu Utama"
+          className="w-full h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]" />
+        <motion.img src="/assets/elemen/X.png" alt="Close"
+          className="btn-icon absolute top-6 right-6 z-20 w-[55px] h-[55px]"
+          onClick={() => handleButtonClick(() => navigateTo('start'), 'ui-close')}
+          whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
 
-          {/* Menu Grid */}
-          <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex gap-5 z-10 w-full justify-center">
-            {menuItems.map((item, index) => (
-              
-                <motion.img key={item.id}
-                  onClick={() => handleButtonClick(
-                    () => navigateTo(item.screen),
-                    item.id === 'panduan' ? 'ui-panduan' : item.id === 'cptp' ? 'ui-cptp' : 'ui-ayo-belajar'
-                  )}
-                  initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }} src={item.icon} alt={item.label} className="lg:w-[150px] w-[100px] cursor-pointer h-auto object-contain" 
-                /> 
-            ))} 
+        {/* Menu Grid */}
+        <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex gap-5 z-10 w-full justify-center">
+          {menuItems.map((item, index) => (
+
+            <motion.img key={item.id}
+              onClick={() => handleButtonClick(
+                () => navigateTo(item.screen),
+                item.id === 'panduan' ? 'ui-panduan' : item.id === 'cptp' ? 'ui-cptp' : 'ui-ayo-belajar'
+              )}
+              initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 + index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }} src={item.icon} alt={item.label} className="lg:w-[150px] w-[100px] cursor-pointer h-auto object-contain"
+            />
+          ))}
         </div>
       </motion.div>
 
