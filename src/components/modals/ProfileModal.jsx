@@ -1,115 +1,51 @@
-/**
- * ============================================================================
- * PROFILE-MODAL.JSX - MODAL PROFIL PENGEMBANG
- * ============================================================================
- * 
- * Modal popup yang menampilkan informasi tentang pengembang aplikasi.
- * Muncul ketika user mengklik tombol Informasi (i).
- * 
- * Menampilkan:
- * - Nama pengembang
- * - Institusi pendidikan
- * - Kontak (Instagram, TikTok, WhatsApp)
- * 
- * ============================================================================
- */
-
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../../App'
-import './Modal.css'
 
-/**
- * ProfileModal Component
- * 
- * @param {function} onClose - Fungsi yang dipanggil saat modal ditutup
- */
 function ProfileModal({ onClose }) {
   const { playSound } = useApp()
-
-  /**
-   * handleClose - Menangani penutupan modal
-   */
-  const handleClose = () => {
-    playSound('click')
-    onClose()
-  }
+  const [showReferensi, setShowReferensi] = useState(false)
+  const handleClose = () => { playSound('click'); onClose() }
 
   return (
-    /**
-     * Modal Overlay - Latar belakang gelap semi-transparan
-     * Klik di luar modal akan menutup modal
-     */
-    <motion.div 
-      className="modal-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={handleClose}  // Klik overlay = tutup modal
+    <motion.div
+      className="fixed inset-0 bg-black/60 z-1000 w-full h-full flex justify-center items-center"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      onClick={handleClose}
     >
-      {/**
-       * Modal Content - Konten modal
-       * stopPropagation mencegah event klik menyebar ke overlay
-       */}
-      <motion.div 
-        className="modal-content profile-modal"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()}  // Cegah tutup saat klik konten
+      <motion.div
+        className="relative max-w-2xl max-h-fit flex flex-col items-center justify-end"
+        initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Tombol Close (X) */}
-        <motion.img 
-          src="/assets/elemen/X.png" 
-          alt="Close"
-          className="modal-close btn-icon"
+        <motion.img src="/assets/elemen/X.png" alt="Close"
+          className="btn-icon absolute top-0 right-2 z-10"
           onClick={handleClose}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        />
-        
-        {/* Board Profil */}
-        <div className="board-panel profile-board">
-          <h2 className="profile-title">Profil Pengembang</h2>
-          
-          <div className="profile-content">
-            {/* Salam Pembuka */}
-            <p className="profile-greeting">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
-            
-            <div className="profile-info">
-              {/* Foto Profil */}
-              <div className="profile-photo">
-                <div className="photo-frame">
-                  <div className="photo-placeholder">
-                    👩‍🎓
-                  </div>
-                </div>
-              </div>
-              
-              {/* Teks Informasi */}
-              <div className="profile-text">
-                <p className="profile-name">Perkenalkan Nama Saya <strong>Putri Nur Bintang</strong></p>
-                <p className="profile-desc">Saya Mahasiswi Pendidikan IPA FKIP</p>
-                <p className="profile-desc">Universitas Muhammadiyah Riau</p>
-                
-                {/* Kontak */}
-                <div className="profile-contacts">
-                  <div className="contact-item">
-                    <span className="contact-icon">📸</span>
-                    <span>@putrinurbintang</span>
-                  </div>
-                  <div className="contact-item">
-                    <span className="contact-icon">🎵</span>
-                    <span>@putrinurbintang</span>
-                  </div>
-                  <div className="contact-item">
-                    <span className="contact-icon">📱</span>
-                    <span>0822-8445-3226</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
+
+        <AnimatePresence mode="wait">
+          {!showReferensi ? (
+            <motion.div key="profil" className="w-full h-full flex items-center justify-center"
+              initial={{ opacity: 0, x: 0 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
+              <img src="/assets/elemen/Profil Pengembang.png" alt="Profil Pengembang"
+                className="w-full h-auto object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]" />
+              <motion.img src="/assets/elemen/Lanjut.png" alt="Lanjut"
+                className="btn-icon absolute top-1/2 -translate-y-1/2 -right-6 z-10"
+                onClick={() => { playSound('click'); setShowReferensi(true) }}
+                whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
+            </motion.div>
+          ) : (
+            <motion.div key="referensi" className="w-full h-full flex items-center justify-center"
+              initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 30 }}>
+              <img src="/assets/elemen/Referensi.png" alt="Referensi"
+                className="w-full h-auto object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]" />
+              <motion.img src="/assets/elemen/Kembali.png" alt="Kembali"
+                className="btn-icon absolute top-1/2 -translate-y-1/2 -left-6 z-10"
+                onClick={() => { playSound('click'); setShowReferensi(false) }}
+                whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </motion.div>
   )

@@ -1,97 +1,40 @@
-/**
- * ============================================================================
- * SETTINGS-MODAL.JSX - MODAL PENGATURAN SUARA
- * ============================================================================
- * 
- * Modal popup untuk mengatur suara aplikasi (mute/unmute).
- * Muncul ketika user mengklik tombol Pengaturan (gear icon).
- * 
- * Fitur:
- * - Tombol Volume Hidup - Mengaktifkan suara
- * - Tombol Volume Mati - Mematikan suara
- * 
- * ============================================================================
- */
-
 import { motion } from 'framer-motion'
 import { useApp } from '../../App'
-import './Modal.css'
 
 function SettingsModal({ onClose }) {
-  // Ambil state dan fungsi dari Context
   const { isMuted, setIsMuted, playSound } = useApp()
-
-  const handleClose = () => {
-    playSound('click')
-    onClose()
-  }
-
-  /**
-   * handleVolumeChange - Mengubah status mute
-   * @param {boolean} muted - true untuk mute, false untuk unmute
-   */
-  const handleVolumeChange = (muted) => {
-    playSound('click')
-    setIsMuted(muted)  // Update state global
-  }
+  const handleClose = () => { playSound('click'); onClose() }
+  const handleVolumeChange = (muted) => { playSound('click'); setIsMuted(muted) }
 
   return (
-    <motion.div 
-      className="modal-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <motion.div
+      className="fixed inset-0 bg-black/60 flex justify-center items-center z-1000 p-4"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       onClick={handleClose}
     >
-      <motion.div 
-        className="modal-content settings-modal"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
+      <motion.div
+        className="relative max-w-md max-h-[90vh]"
+        initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Tombol Close */}
-        <motion.img 
-          src="/assets/elemen/X.png" 
-          alt="Close"
-          className="modal-close btn-icon"
+        <motion.img src="/assets/elemen/X.png" alt="Close"
+          className="btn-icon absolute -top-3 -right-3 z-10"
           onClick={handleClose}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        />
-        
-        {/* Board Pengaturan */}
-        <div className="settings-board">
-          <h2 className="settings-title">Pengaturan</h2>
+          whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
+        <img src="/assets/elemen/Layar Pengaturan.png" alt="Close"
+          className="w-full h-auto object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]"  />
           
-          <div className="settings-content">
-            {/* 
-             * Tombol Volume Hidup
-             * Class 'active' ditambahkan jika suara sedang ON (!isMuted)
-             */}
-            <motion.img 
-              src="/assets/elemen/Volume Hidup.png" 
-              alt="Volume On"
-              className={`volume-btn ${!isMuted ? 'active' : ''}`}
-              onClick={() => handleVolumeChange(false)}  // false = unmute
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            />
-            
-            {/* 
-             * Tombol Volume Mati
-             * Class 'active' ditambahkan jika suara sedang OFF (isMuted)
-             */}
-            <motion.img 
-              src="/assets/elemen/Volume Mati.png" 
-              alt="Volume Off"
-              className={`volume-btn ${isMuted ? 'active' : ''}`}
-              onClick={() => handleVolumeChange(true)}  // true = mute
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            />
+          <div className="flex justify-center gap-6 absolute top-1/2 -translate-y-[45%] left-1/2 -translate-x-1/2 w-full">
+            <motion.img src="/assets/elemen/Volume Hidup.png" alt="Volume On"
+              className={`w-[100px] h-[100px] cursor-pointer transition-all rounded-xl p-2 ${!isMuted ? 'scale-110' : 'opacity-60'}`}
+              onClick={() => handleVolumeChange(false)}
+              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
+
+            <motion.img src="/assets/elemen/Volume Mati.png" alt="Volume Off"
+              className={`w-[100px] h-[100px] cursor-pointer transition-all rounded-xl p-2 ${isMuted ? 'scale-110' : 'opacity-60'}`}
+              onClick={() => handleVolumeChange(true)}
+              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           </div>
-        </div>
       </motion.div>
     </motion.div>
   )

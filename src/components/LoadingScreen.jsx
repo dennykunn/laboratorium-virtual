@@ -1,132 +1,92 @@
-/**
- * ============================================================================
- * LOADING-SCREEN.JSX - HALAMAN LOADING AWAL
- * ============================================================================
- * 
- * Halaman pertama yang muncul saat aplikasi dibuka.
- * 
- * Fitur:
- * - Menampilkan logo "Gerak & Gaya"
- * - Menampilkan loading bar animasi
- * - Otomatis pindah ke Start Screen setelah 4 detik
- * - Ada tombol "Lewati" untuk skip loading
- * 
- * ============================================================================
- */
-
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useApp } from '../App'
-import './LoadingScreen.css'
 
 function LoadingScreen() {
-  // Ambil fungsi navigasi dari Context
   const { navigateTo } = useApp()
-  
-  // useRef untuk menyimpan referensi ke video (jika digunakan)
   const videoRef = useRef(null)
 
-  /**
-   * useEffect untuk auto-navigate setelah loading selesai
-   * 
-   * setTimeout akan menjalankan navigateTo('start') setelah 4 detik
-   * Cleanup function (return) membatalkan timeout jika komponen di-unmount
-   */
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigateTo('start')  // Pindah ke halaman start
-    }, 4000)  // 4000 ms = 4 detik
-    
-    // Cleanup: batalkan timeout jika user keluar lebih awal
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [navigateTo])  // Dependency: navigateTo
-
-  /**
-   * handleSkip - Handler untuk tombol Lewati
-   * Langsung pindah ke Start Screen tanpa menunggu
-   */
-  const handleSkip = () => {
-    navigateTo('start')
-  }
+    const timeout = setTimeout(() => navigateTo('start'), 6000)
+    return () => clearTimeout(timeout)
+  }, [navigateTo])
 
   return (
-    <motion.div 
-      className="screen loading-screen"
-      initial={{ opacity: 0 }}      // Mulai transparan
-      animate={{ opacity: 1 }}       // Fade in
-      exit={{ opacity: 0 }}          // Fade out saat keluar
+    <motion.div
+      className="w-full h-full absolute inset-0 overflow-hidden flex flex-col items-center justify-center bg-[#1a1a2e]"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
     >
-      {/* Background Loading */}
-      <div className="loading-background">
-        <img 
-          src="/assets/latar-slide/1.jpg" 
-          alt="Background"
-          className="loading-bg-image"
-        />
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <img src="/assets/latar-slide/1.jpg" alt="Background" className="w-full h-full object-cover" />
       </div>
-      
-      {/* Konten Loading */}
-      <div className="loading-content">
-        {/* Logo "Gerak & Gaya" dengan animasi pulse */}
-        <motion.div 
-          className="loading-logo"
-          initial={{ scale: 0.8, opacity: 0 }}  // Mulai kecil dan transparan
-          animate={{ scale: 1, opacity: 1 }}    // Membesar dan muncul
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center gap-3">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <img 
-            src="/assets/elemen/Gerak & Gaya.png" 
-            alt="Gerak & Gaya"
-            className="logo-gerak-gaya"
+          <img
+            src="/assets/elemen/Laboratorium Virtual Inklusif.png"
+            alt="Laboratorium Virtual"
+            className="w-[min(450px,80vw)] h-auto drop-shadow-[4px_6px_12px_rgba(0,0,0,0.4)]"
           />
         </motion.div>
-        
-        {/* Subtitle "IPA SMP/MTs Kelas VII" */}
-        <motion.div 
-          className="loading-subtitle"
-          initial={{ y: 20, opacity: 0 }}   // Mulai di bawah
-          animate={{ y: 0, opacity: 1 }}    // Naik ke posisi normal
-          transition={{ delay: 0.3, duration: 0.5 }}  // Delay 0.3 detik
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <img 
-            src="/assets/elemen/IPA-SMPMTs kelas VII.png" 
-            alt="IPA SMP/MTs Kelas VII"
-            className="subtitle-image"
+          <img
+            src="/assets/elemen/Gerak & Gaya.png"
+            alt="Gerak & Gaya"
+            className="w-[min(300px,60vw)] h-auto drop-shadow-[3px_5px_10px_rgba(0,0,0,0.3)]"
           />
         </motion.div>
-        
-        {/* Loading Bar - Progress bar animasi */}
-        <motion.div 
-          className="loading-bar-container"
+
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <div className="loading-bar">
-            {/* 
-             * Bar yang bergerak dari 0% ke 100%
-             * Durasi 3.5 detik (sedikit kurang dari 4 detik total)
-             */}
-            <motion.div 
-              className="loading-bar-fill"
+          <img
+            src="/assets/elemen/IPA-SMPMTs kelas VII.png"
+            alt="IPA SMP/MTs Kelas VII"
+            className="w-[min(250px,50vw)] h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]"
+          />
+        </motion.div>
+
+        {/* Loading Bar */}
+        <motion.div
+          className="mt-5 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <div className="w-[min(350px,70vw)] h-3.5 bg-white/20 rounded-xl overflow-hidden border-2 border-white/30">
+            <motion.div
+              className="h-full bg-linear-to-r from-primary-blue via-green-500 to-primary-orange rounded-xl"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
-              transition={{ duration: 3.5, ease: 'linear' }}
+              transition={{ duration: 5.5, ease: 'linear' }}
             />
           </div>
-          <p className="loading-text">Memuat...</p>
+          <p className="mt-2.5 text-white font-fredoka text-lg drop-shadow-[1px_1px_4px_rgba(0,0,0,0.5)]">
+            Memuat...
+          </p>
         </motion.div>
       </div>
 
-      {/* Tombol Lewati - Untuk skip loading */}
-      <motion.button 
-        className="skip-button" 
-        onClick={handleSkip}
+      {/* Skip Button */}
+      <motion.button
+        className="absolute bottom-8 right-8 z-20 px-6 py-2.5 bg-white/15 backdrop-blur-lg border-2 border-white/30 rounded-3xl text-white font-fredoka text-base cursor-pointer hover:bg-white/25 transition-colors"
+        onClick={() => navigateTo('start')}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}  // Muncul setelah 1 detik
+        transition={{ delay: 1.5 }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
