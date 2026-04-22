@@ -46,6 +46,22 @@ function App() {
   const [currentTopic, setCurrentTopic] = useState(null)
   const [isBgMusicEnabled, setIsBgMusicEnabled] = useState(true)
   const [isOperatorEnabled, setIsOperatorEnabled] = useState(true)
+  const [showRotateOverlay, setShowRotateOverlay] = useState(false)
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isMobile = window.matchMedia('(max-width: 900px)').matches
+      const isPortrait = window.matchMedia('(orientation: portrait)').matches
+      setShowRotateOverlay(isMobile && isPortrait)
+    }
+    checkOrientation()
+    window.addEventListener('resize', checkOrientation)
+    window.addEventListener('orientationchange', checkOrientation)
+    return () => {
+      window.removeEventListener('resize', checkOrientation)
+      window.removeEventListener('orientationchange', checkOrientation)
+    }
+  }, [])
 
   useEffect(() => {
     const handleFullscreenChange = () => setIsFullscreenMode(isFullscreen())
@@ -158,6 +174,18 @@ function App() {
             >
               {isFullscreenMode ? '⧉ ' : '⛶'}
             </motion.div>
+          </div>
+        )}
+
+        {showRotateOverlay && (
+          <div className="fixed inset-0 z-9999 bg-black/85 flex flex-col items-center justify-center text-center px-6">
+            <div className="text-6xl mb-4">🔄</div>
+            <h2 className="font-oswald text-white text-2xl md:text-3xl tracking-wide">
+              Putar Perangkat
+            </h2>
+            <p className="font-fredoka text-white/90 text-base md:text-lg mt-2 max-w-sm leading-relaxed">
+              Untuk pengalaman terbaik, gunakan mode landscape (miring).
+            </p>
           </div>
         )}
       </div>
