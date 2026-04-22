@@ -3,13 +3,14 @@ import { motion } from 'framer-motion'
 import { useApp } from '../App'
 
 function LoadingScreen() {
-  const { navigateTo } = useApp()
+  const { navigateTo, playSound, playNarration } = useApp()
   const videoRef = useRef(null)
 
   useEffect(() => {
+    playNarration('slide-start')
     const timeout = setTimeout(() => navigateTo('start'), 6000)
     return () => clearTimeout(timeout)
-  }, [navigateTo])
+  }, [navigateTo, playNarration])
 
   return (
     <motion.div
@@ -83,7 +84,7 @@ function LoadingScreen() {
       {/* Skip Button */}
       <motion.button
         className="absolute bottom-8 right-8 z-20 px-6 py-2.5 bg-white/15 backdrop-blur-lg border-2 border-white/30 rounded-3xl text-white font-fredoka text-base cursor-pointer hover:bg-white/25 transition-colors"
-        onClick={() => navigateTo('start')}
+        onClick={() => { playSound('ui-next'); navigateTo('start') }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}

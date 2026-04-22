@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
 import ProfileModal from './modals/ProfileModal'
@@ -6,7 +6,7 @@ import SettingsModal from './modals/SettingsModal'
 import ExitModal from './modals/ExitModal'
 
 function MainMenu() {
-  const { navigateTo, playSound } = useApp()
+  const { navigateTo, playSound, playNarration } = useApp()
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
@@ -17,7 +17,8 @@ function MainMenu() {
     { id: 'ayo-belajar', label: 'Ayo Belajar', icon: '/assets/elemen/Ayo Belajar.png', screen: 'ayo-belajar' },
   ]
 
-  const handleButtonClick = (action) => { playSound('click'); action() }
+  useEffect(() => { playNarration('slide-menu') }, [playNarration])
+  const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
 
   return (
     <motion.div
@@ -37,13 +38,13 @@ function MainMenu() {
       {/* Header Icons */}
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowProfile(true))}
+          onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowSettings(true))}
+          onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowExit(true))}
+          onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
 
@@ -66,7 +67,10 @@ function MainMenu() {
             {menuItems.map((item, index) => (
               
                 <motion.img key={item.id}
-                  onClick={() => handleButtonClick(() => navigateTo(item.screen))}
+                  onClick={() => handleButtonClick(
+                    () => navigateTo(item.screen),
+                    item.id === 'panduan' ? 'ui-panduan' : item.id === 'cptp' ? 'ui-cptp' : 'ui-ayo-belajar'
+                  )}
                   initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }} whileTap={{ scale: 0.95 }} src={item.icon} alt={item.label} className="lg:w-[150px] w-[100px] cursor-pointer h-auto object-contain" 

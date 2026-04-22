@@ -1,11 +1,13 @@
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useApp } from '../../App'
 
 function ExitModal({ onClose }) {
-  const { playSound } = useApp()
-  const handleClose = () => { playSound('click'); onClose() }
+  const { playSound, playNarration } = useApp()
+  useEffect(() => { playNarration('slide-exit') }, [playNarration])
+  const handleClose = () => { playSound('ui-no'); onClose() }
   const handleExit = () => {
-    playSound('click')
+    playSound('ui-yes')
     window.close()
     window.location.href = 'about:blank'
   }

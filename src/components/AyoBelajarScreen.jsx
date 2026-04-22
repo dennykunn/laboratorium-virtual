@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
 import ProfileModal from './modals/ProfileModal'
@@ -6,15 +6,16 @@ import SettingsModal from './modals/SettingsModal'
 import ExitModal from './modals/ExitModal'
 
 function AyoBelajarScreen() {
-  const { navigateTo, playSound, setCurrentTopic } = useApp()
+  const { navigateTo, playSound, setCurrentTopic, playNarration } = useApp()
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
 
-  const handleButtonClick = (action) => { playSound('click'); action() }
+  useEffect(() => { playNarration('ui-ayo-belajar') }, [playNarration])
+  const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
 
   const handleTopicSelect = (topic) => {
-    playSound('click')
+    playSound(topic === 'gerak' ? 'ui-gerak' : 'ui-gaya')
     setCurrentTopic(topic)
     navigateTo(`topic-${topic}`)
   }
@@ -35,13 +36,13 @@ function AyoBelajarScreen() {
 
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowProfile(true))}
+          onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowSettings(true))}
+          onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowExit(true))}
+          onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
 
@@ -60,7 +61,7 @@ function AyoBelajarScreen() {
 
           <motion.img src="/assets/elemen/X.png" alt="Close"
             className="btn-icon absolute top-2 right-2 md:top-6 md:right-6 z-20 w-[45px] h-[45px] md:w-[55px] md:h-[55px]"
-            onClick={() => handleButtonClick(() => navigateTo('menu'))}
+            onClick={() => handleButtonClick(() => navigateTo('menu'), 'ui-close')}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           {/* Topic Cards */}
           <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex gap-5 md:gap-8 w-full justify-center px-2 md:px-0">

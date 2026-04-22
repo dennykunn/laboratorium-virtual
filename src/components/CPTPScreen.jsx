@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
 import ProfileModal from './modals/ProfileModal'
@@ -11,13 +11,14 @@ const slides = [
 ]
 
 function CPTPScreen() {
-  const { navigateTo, playSound } = useApp()
+  const { navigateTo, playSound, playNarration } = useApp()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
 
-  const handleButtonClick = (action) => { playSound('click'); action() }
+  useEffect(() => { playNarration('slide-cptp') }, [playNarration])
+  const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
 
   return (
     <motion.div
@@ -35,13 +36,13 @@ function CPTPScreen() {
 
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowProfile(true))}
+          onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowSettings(true))}
+          onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowExit(true))}
+          onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
 
@@ -54,19 +55,19 @@ function CPTPScreen() {
       <motion.div className="relative z-10 lg:max-w-3xl max-w-lg max-h-fit flex flex-col items-center">
         <motion.img src="/assets/elemen/X.png" alt="Close"
           className="btn-icon absolute top-6 right-6 z-20 w-[55px] h-[55px]"
-          onClick={() => handleButtonClick(() => navigateTo('menu'))}
+          onClick={() => handleButtonClick(() => navigateTo('menu'), 'ui-close')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
 
         {currentSlide > 0 && (
           <motion.img src="/assets/elemen/Kembali.png" alt="Previous"
             className="nav-arrow-base left-0"
-            onClick={() => { playSound('click'); setCurrentSlide(currentSlide - 1) }}
+            onClick={() => { playSound('ui-back'); setCurrentSlide(currentSlide - 1) }}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
         )}
         {currentSlide < slides.length - 1 && (
           <motion.img src="/assets/elemen/Lanjut.png" alt="Next"
             className="nav-arrow-base right-0"
-            onClick={() => { playSound('click'); setCurrentSlide(currentSlide + 1) }}
+            onClick={() => { playSound('ui-next'); setCurrentSlide(currentSlide + 1) }}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
         )}
 

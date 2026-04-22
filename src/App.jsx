@@ -11,7 +11,9 @@ import TopicFlow from './components/TopicFlow'
 
 import {
   initSounds, playBgMusic, stopBgMusic,
-  setMuted as setAudioMuted, playSound
+  setMuted as setAudioMuted, playSound, playNarration,
+  setBgMusicEnabled as setBgMusicEnabledGlobal,
+  setOperatorEnabled as setOperatorEnabledGlobal
 } from './hooks/useAudio'
 
 import './App.css'
@@ -42,6 +44,8 @@ function App() {
   const [audioInitialized, setAudioInitialized] = useState(false)
   const [isFullscreenMode, setIsFullscreenMode] = useState(false)
   const [currentTopic, setCurrentTopic] = useState(null)
+  const [isBgMusicEnabled, setIsBgMusicEnabled] = useState(true)
+  const [isOperatorEnabled, setIsOperatorEnabled] = useState(true)
 
   useEffect(() => {
     const handleFullscreenChange = () => setIsFullscreenMode(isFullscreen())
@@ -74,11 +78,13 @@ function App() {
   }, [audioInitialized])
 
   useEffect(() => { setAudioMuted(isMuted) }, [isMuted])
+  useEffect(() => { setBgMusicEnabledGlobal(isBgMusicEnabled) }, [isBgMusicEnabled])
+  useEffect(() => { setOperatorEnabledGlobal(isOperatorEnabled) }, [isOperatorEnabled])
 
   useEffect(() => {
-    if (currentScreen !== 'loading' && audioInitialized && !isMuted) playBgMusic()
+    if (currentScreen !== 'loading' && audioInitialized && !isMuted && isBgMusicEnabled) playBgMusic()
     return () => { if (currentScreen === 'loading') stopBgMusic() }
-  }, [currentScreen, audioInitialized, isMuted])
+  }, [currentScreen, audioInitialized, isMuted, isBgMusicEnabled])
 
   const navigateTo = (screen) => {
     if (audioInitialized) playSound('transition')
@@ -86,10 +92,10 @@ function App() {
   }
 
   const toggleMute = () => {
-    if (audioInitialized) playSound('click')
     const newMuted = !isMuted
+    if (audioInitialized) playSound(newMuted ? 'ui-volume-off' : 'ui-volume-on')
     setIsMuted(newMuted)
-    if (!newMuted && currentScreen !== 'loading') setTimeout(() => playBgMusic(), 100)
+    if (!newMuted && currentScreen !== 'loading' && isBgMusicEnabled) setTimeout(() => playBgMusic(), 100)
   }
 
   const toggleFullscreen = () => {
@@ -100,9 +106,12 @@ function App() {
 
   const contextValue = {
     currentScreen, navigateTo, isMuted, setIsMuted,
+    isBgMusicEnabled, setIsBgMusicEnabled,
+    isOperatorEnabled, setIsOperatorEnabled,
     audioInitialized, isFullscreenMode, toggleFullscreen,
     currentTopic, setCurrentTopic,
-    playSound: (sound) => audioInitialized && playSound(sound)
+    playSound: (sound) => audioInitialized && playSound(sound),
+    playNarration: (key, options) => audioInitialized && playNarration(key, options)
   }
 
   const renderScreen = () => {

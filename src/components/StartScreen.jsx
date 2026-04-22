@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
 import ProfileModal from './modals/ProfileModal'
@@ -6,12 +6,13 @@ import SettingsModal from './modals/SettingsModal'
 import ExitModal from './modals/ExitModal'
 
 function StartScreen() {
-  const { navigateTo, playSound } = useApp()
+  const { navigateTo, playSound, playNarration } = useApp()
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
 
-  const handleButtonClick = (action) => { playSound('click'); action() }
+  useEffect(() => { playNarration('slide-start') }, [playNarration])
+  const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
 
   return (
     <motion.div
@@ -32,13 +33,13 @@ function StartScreen() {
       {/* Header Right - Icons */}
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowProfile(true))}
+          onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowSettings(true))}
+          onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
-          onClick={() => handleButtonClick(() => setShowExit(true))}
+          onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
 
@@ -64,7 +65,7 @@ function StartScreen() {
           transition={{ delay: 0.8, type: 'spring', stiffness: 200 }}>
           <motion.img src="/assets/elemen/Play.png" alt="Play"
             className="w-[90px] h-[90px] cursor-pointer drop-shadow-[3px_5px_10px_rgba(0,0,0,0.35)]"
-            onClick={() => handleButtonClick(() => navigateTo('menu'))}
+            onClick={() => handleButtonClick(() => navigateTo('menu'), 'ui-play')}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
             animate={{ y: [0, -10, 0] }}
             transition={{ y: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' } }} />

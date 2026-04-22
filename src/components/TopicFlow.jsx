@@ -154,7 +154,7 @@ const GAYA_QUESTIONS = [
 //  KOMPONEN UTAMA
 // ─────────────────────────────────────────────
 function TopicFlow({ topic }) {
-  const { navigateTo, playSound } = useApp()
+  const { navigateTo, playSound, playNarration } = useApp()
 
   const slides = topic === 'gerak' ? GERAK_SLIDES : GAYA_SLIDES
   const questions = topic === 'gerak' ? GERAK_QUESTIONS : GAYA_QUESTIONS
@@ -183,15 +183,43 @@ function TopicFlow({ topic }) {
     return currentSlide < slides.length - 1
   }
 
-  const goNext = () => { if (canGoNext()) { playSound('click'); setCurrentSlide(i => i + 1) } }
-  const goPrev = () => { if (canGoPrev()) { playSound('click'); setCurrentSlide(i => i - 1) } }
-  const click = (fn) => { playSound('click'); fn() }
+  const goNext = () => { if (canGoNext()) { playSound('ui-next'); setCurrentSlide(i => i + 1) } }
+  const goPrev = () => { if (canGoPrev()) { playSound('ui-back'); setCurrentSlide(i => i - 1) } }
+  const click = (fn, sound = 'click') => { playSound(sound); fn() }
+
+  useEffect(() => {
+    const narrationBySlide = {
+      'gerak-simak': 'ui-ayo-simak',
+      'gerak-bertanya': 'slide-gerak-bertanya',
+      'gerak-coba-tebak-image': 'slide-gerak-coba-tebak',
+      'gerak-coba-tebak-pertanyaan': 'slide-gerak-coba-tebak-pertanyaan',
+      'gerak-materi': 'slide-gerak-materi',
+      'rumus-gerak': 'slide-gerak-rumus',
+      'analisis-yuk-gerak': 'slide-gerak-analisis',
+      'mari-simpulkan-gerak': 'slide-gerak-simpulkan',
+      'gaya-simak': 'ui-ayo-simak',
+      'gaya-bertanya': 'ui-ayo-bertanya',
+      'gaya-coba-tebak': 'slide-gaya-coba-tebak',
+      'gaya-coba-tebak-pertanyaan': 'slide-gaya-coba-tebak-pertanyaan',
+      'materi-gaya': 'slide-gaya-materi',
+      'newton': 'slide-gaya-newton',
+      'hukum-newton-i': 'slide-gaya-newton-1',
+      'hukum-newton-ii': 'slide-gaya-newton-2',
+      'hukum-newton-iii': 'slide-gaya-newton-3',
+      'analisis-yuk-gaya': 'slide-gaya-analisis',
+      'mari-simpulkan-gaya': 'slide-gaya-simpulkan',
+      quiz: topic === 'gerak' ? 'slide-gerak-quiz' : 'slide-gaya-quiz',
+      score: 'slide-gerak-score',
+    }
+    const key = narrationBySlide[slide.type]
+    if (key) playNarration(key)
+  }, [slide.type, topic, playNarration])
 
 
   // ── Quiz ──
   const handleQuizAnswer = (option) => {
     if (quizAnswered) return
-    playSound('click')
+    playSound(`ui-option-${option.label.toLowerCase()}`)
     setQuizAnswered(true)
     if (option.correct) { setQuizScore(s => s + 20); setQuizResult('correct'); playSound('success') }
     else { setQuizResult('wrong'); playSound('error') }
@@ -627,7 +655,7 @@ function TopicFlow({ topic }) {
                    bg-linear-to-b from-primary-blue to-[#3572b0]
                    rounded-3xl text-white font-fredoka text-base md:text-lg
                    shadow-[0_4px_12px_rgba(0,0,0,0.2)]"
-            onClick={() => click(() => navigateTo('ayo-belajar'))}
+            onClick={() => click(() => navigateTo('ayo-belajar'), 'ui-back')}
             initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }}
             whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <img src="/assets/elemen/Balik Menu Utama.png" alt="" className="w-6 md:w-7 h-auto object-contain" />
@@ -656,7 +684,7 @@ function TopicFlow({ topic }) {
 
         <motion.img src="/assets/elemen/Balik Menu Utama.png" alt="Kembali"
           className="w-10 md:w-12 h-auto object-contain cursor-pointer"
-          onClick={() => click(() => navigateTo('ayo-belajar'))}
+          onClick={() => click(() => navigateTo('ayo-belajar'), 'ui-back')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
 
         {showWordmark && (
@@ -672,11 +700,11 @@ function TopicFlow({ topic }) {
         <div className="flex items-center gap-2 md:gap-3">
           <motion.img src="/assets/elemen/Informasi.png" alt="Info"
             className="w-10 md:w-12 h-auto object-contain cursor-pointer"
-            onClick={() => click(() => setShowProfile(true))}
+            onClick={() => click(() => setShowProfile(true), 'ui-info')}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
           <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan"
             className="w-10 md:w-12 h-auto object-contain cursor-pointer"
-            onClick={() => click(() => setShowSettings(true))}
+            onClick={() => click(() => setShowSettings(true), 'ui-settings')}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         </div>
       </header>
