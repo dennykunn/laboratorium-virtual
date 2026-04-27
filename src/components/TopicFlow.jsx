@@ -962,8 +962,8 @@ function TopicFlow({ topic }) {
               {/* Massa */}
               <div className="bg-orange-50 rounded-xl p-2.5 border border-orange-200 flex flex-col gap-1">
                 <span className="font-semibold text-orange-700 text-[0.7rem]">⚖️ Massa dasar (kg)</span>
-                <input type="number" min={50} max={300} value={gayaInputMass}
-                  onChange={e => setGayaInputMass(clamp(Number(e.target.value), 50, 300))}
+                <input type="number" min={1} max={300} value={gayaInputMass}
+                  onChange={e => setGayaInputMass(clamp(Number(e.target.value), 1, 300))}
                   className="w-full px-2 py-1.5 rounded-lg border border-orange-300 text-sm font-mono bg-white" />
                 <div className="flex gap-2 flex-wrap mt-0.5">
                   <label className="flex items-center gap-1 text-[0.65rem] bg-white border border-orange-200 px-1.5 py-0.5 rounded-md cursor-pointer">
