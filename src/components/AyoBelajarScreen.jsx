@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
+import useHoverSound from '../hooks/useHoverSound'
 import ProfileModal from './modals/ProfileModal'
 import SettingsModal from './modals/SettingsModal'
 import ExitModal from './modals/ExitModal'
@@ -10,6 +11,7 @@ function AyoBelajarScreen() {
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
+  const playHover = useHoverSound(playSound)
 
   useEffect(() => { playNarration('ui-ayo-belajar') }, [playNarration])
   const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
@@ -36,12 +38,15 @@ function AyoBelajarScreen() {
 
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
+          onMouseEnter={() => playHover('belajar-info', 'ui-info')}
           onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
+          onMouseEnter={() => playHover('belajar-settings', 'ui-settings')}
           onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
+          onMouseEnter={() => playHover('belajar-exit', 'ui-exit')}
           onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
@@ -61,12 +66,14 @@ function AyoBelajarScreen() {
 
           <motion.img src="/assets/elemen/X.png" alt="Close"
             className="btn-icon absolute top-2 right-2 md:top-6 md:right-6 z-20 w-[45px] h-[45px] md:w-[55px] md:h-[55px]"
+            onMouseEnter={() => playHover('belajar-close', 'ui-close')}
             onClick={() => handleButtonClick(() => navigateTo('menu'), 'ui-close')}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           {/* Topic Cards */}
           <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex gap-5 md:gap-8 w-full justify-center px-2 md:px-0">
             <motion.div
               className="cursor-pointer"
+              onMouseEnter={() => playHover('belajar-gerak', 'ui-gerak')}
               onClick={() => handleTopicSelect('gerak')}
               initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }}
               whileHover={{ scale: 1.05, y: -8 }} whileTap={{ scale: 0.95 }}>
@@ -76,6 +83,7 @@ function AyoBelajarScreen() {
 
             <motion.div
               className="cursor-pointer"
+              onMouseEnter={() => playHover('belajar-gaya', 'ui-gaya')}
               onClick={() => handleTopicSelect('gaya')}
               initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.4 }}
               whileHover={{ scale: 1.05, y: -8 }} whileTap={{ scale: 0.95 }}>

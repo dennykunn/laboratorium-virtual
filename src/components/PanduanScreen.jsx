@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../App'
+import useHoverSound from '../hooks/useHoverSound'
 import ProfileModal from './modals/ProfileModal'
 import SettingsModal from './modals/SettingsModal'
 import ExitModal from './modals/ExitModal'
@@ -11,6 +12,7 @@ function PanduanScreen() {
   const [showProfile, setShowProfile] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [showExit, setShowExit] = useState(false)
+  const playHover = useHoverSound(playSound)
 
   const slides = [
     { image: '/assets/elemen/Papan Panduan 1.png' },
@@ -37,12 +39,15 @@ function PanduanScreen() {
 
       <div className="absolute top-4 right-4 flex gap-3 z-100">
         <motion.img src="/assets/elemen/Informasi.png" alt="Info" className="btn-icon"
+          onMouseEnter={() => playHover('panduan-info', 'ui-info')}
           onClick={() => handleButtonClick(() => setShowProfile(true), 'ui-info')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Pengaturan.png" alt="Pengaturan" className="btn-icon"
+          onMouseEnter={() => playHover('panduan-settings', 'ui-settings')}
           onClick={() => handleButtonClick(() => setShowSettings(true), 'ui-settings')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
         <motion.img src="/assets/elemen/Keluar Game.png" alt="Keluar" className="btn-icon"
+          onMouseEnter={() => playHover('panduan-exit', 'ui-exit')}
           onClick={() => handleButtonClick(() => setShowExit(true), 'ui-exit')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} />
       </div>
@@ -57,18 +62,21 @@ function PanduanScreen() {
 
         <motion.img src="/assets/elemen/X.png" alt="Close"
           className="btn-icon absolute top-6 right-6 z-20 w-[55px] h-[55px]"
+          onMouseEnter={() => playHover('panduan-close', 'ui-close')}
           onClick={() => handleButtonClick(() => navigateTo('menu'), 'ui-close')}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
 
         {currentSlide > 0 && (
           <motion.img src="/assets/elemen/Kembali.png" alt="Previous"
             className="nav-arrow-base left-0"
+            onMouseEnter={() => playHover('panduan-prev', 'ui-back')}
             onClick={() => { playSound('ui-back'); setCurrentSlide(currentSlide - 1) }}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
         )}
         {currentSlide < slides.length - 1 && (
           <motion.img src="/assets/elemen/Lanjut.png" alt="Next"
             className="nav-arrow-base right-0"
+            onMouseEnter={() => playHover('panduan-next', 'ui-next')}
             onClick={() => { playSound('ui-next'); setCurrentSlide(currentSlide + 1) }}
             whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
         )}

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useApp } from '../../App'
+import useHoverSound from '../../hooks/useHoverSound'
 
 function ProfileModal({ onClose }) {
   const { playSound, playNarration } = useApp()
   const [showReferensi, setShowReferensi] = useState(false)
+  const playHover = useHoverSound(playSound)
   useEffect(() => { playNarration('slide-profile') }, [playNarration])
   const handleClose = () => { playSound('ui-close'); onClose() }
 
@@ -21,6 +23,7 @@ function ProfileModal({ onClose }) {
       >
         <motion.img src="/assets/elemen/X.png" alt="Close"
           className="btn-icon absolute top-0 right-2 z-10"
+          onMouseEnter={() => playHover('profile-close', 'ui-close')}
           onClick={handleClose}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
 
@@ -32,6 +35,7 @@ function ProfileModal({ onClose }) {
                 className="w-full h-auto object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]" />
               <motion.img src="/assets/elemen/Lanjut.png" alt="Lanjut"
                 className="btn-icon absolute top-1/2 -translate-y-1/2 -right-6 z-10"
+                onMouseEnter={() => playHover('profile-next', 'ui-next')}
                 onClick={() => { playSound('ui-next'); setShowReferensi(true) }}
                 whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
             </motion.div>
@@ -42,6 +46,7 @@ function ProfileModal({ onClose }) {
                 className="w-full h-auto object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]" />
               <motion.img src="/assets/elemen/Kembali.png" alt="Kembali"
                 className="btn-icon absolute top-1/2 -translate-y-1/2 -left-6 z-10"
+                onMouseEnter={() => playHover('profile-prev', 'ui-back')}
                 onClick={() => { playSound('ui-back'); setShowReferensi(false) }}
                 whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
             </motion.div>

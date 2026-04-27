@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useApp } from '../../App'
+import useHoverSound from '../../hooks/useHoverSound'
 
 function SettingsModal({ onClose }) {
   const {
@@ -8,6 +9,7 @@ function SettingsModal({ onClose }) {
     isBgMusicEnabled, setIsBgMusicEnabled,
     isOperatorEnabled, setIsOperatorEnabled,
   } = useApp()
+  const playHover = useHoverSound(playSound)
   useEffect(() => { playNarration('slide-settings') }, [playNarration])
   const handleClose = () => { playSound('ui-close'); onClose() }
   const handleVolumeChange = (muted) => {
@@ -36,6 +38,7 @@ function SettingsModal({ onClose }) {
       >
         <motion.img src="/assets/elemen/X.png" alt="Close"
           className="btn-icon absolute -top-3 -right-3 z-10"
+          onMouseEnter={() => playHover('settings-close', 'ui-close')}
           onClick={handleClose}
           whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
         <img src="/assets/elemen/Layar Pengaturan.png" alt="Close"
@@ -48,10 +51,12 @@ function SettingsModal({ onClose }) {
           <div className="flex justify-center gap-6">
             <motion.img src="/assets/elemen/Volume Hidup.png" alt="Music On"
               className={`w-[60px] md:w-[72px] h-auto cursor-pointer transition-all rounded-xl p-2 ${isBgMusicEnabled ? 'scale-110' : 'opacity-60'}`}
+              onMouseEnter={() => playHover('settings-bg-on', 'ui-volume-on')}
               onClick={() => handleBgMusicToggle(true)}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
             <motion.img src="/assets/elemen/Volume Mati.png" alt="Music Off"
               className={`w-[60px] md:w-[72px] h-auto cursor-pointer transition-all rounded-xl p-2 ${!isBgMusicEnabled ? 'scale-110' : 'opacity-60'}`}
+              onMouseEnter={() => playHover('settings-bg-off', 'ui-volume-off')}
               onClick={() => handleBgMusicToggle(false)}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           </div>
@@ -61,10 +66,12 @@ function SettingsModal({ onClose }) {
           <div className="flex justify-center gap-6">
             <motion.img src="/assets/elemen/Volume Hidup.png" alt="Operator On"
               className={`w-[60px] md:w-[72px] h-auto cursor-pointer transition-all rounded-xl p-2 ${isOperatorEnabled ? 'scale-110' : 'opacity-60'}`}
+              onMouseEnter={() => playHover('settings-op-on', 'ui-volume-on')}
               onClick={() => handleOperatorToggle(true)}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
             <motion.img src="/assets/elemen/Volume Mati.png" alt="Operator Off"
               className={`w-[60px] md:w-[72px] h-auto cursor-pointer transition-all rounded-xl p-2 ${!isOperatorEnabled ? 'scale-110' : 'opacity-60'}`}
+              onMouseEnter={() => playHover('settings-op-off', 'ui-volume-off')}
               onClick={() => handleOperatorToggle(false)}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           </div>

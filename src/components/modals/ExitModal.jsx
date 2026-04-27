@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useApp } from '../../App'
+import useHoverSound from '../../hooks/useHoverSound'
 
 function ExitModal({ onClose }) {
   const { playSound, playNarration } = useApp()
+  const playHover = useHoverSound(playSound)
   useEffect(() => { playNarration('slide-exit') }, [playNarration])
   const handleClose = () => { playSound('ui-no'); onClose() }
   const handleExit = () => {
@@ -30,10 +32,12 @@ function ExitModal({ onClose }) {
           <div className="flex justify-center gap-6 translate-y-5">
             <motion.img src="/assets/elemen/Yes.png" alt="Yes"
               className="md:w-[100px] w-[80px] h-auto cursor-pointer drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]"
+              onMouseEnter={() => playHover('exit-yes', 'ui-yes')}
               onClick={handleExit}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
             <motion.img src="/assets/elemen/No.png" alt="No"
               className="md:w-[100px] w-[80px] h-auto cursor-pointer drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]"
+              onMouseEnter={() => playHover('exit-no', 'ui-no')}
               onClick={handleClose}
               whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} />
           </div> 
