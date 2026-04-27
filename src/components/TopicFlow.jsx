@@ -672,7 +672,7 @@ function TopicFlow({ topic }) {
             <div className="w-full h-full flex flex-col gap-2 p-1">
               <h3 className="font-bubblegum text-center text-primary-teal text-base md:text-xl">Contoh Soal Gaya</h3>
               <video controls playsInline className="w-full h-[70%] object-contain bg-black rounded-lg"
-                src="/assets/elemen/Gaya/Contoh Soal.MP4" />
+                src="/assets/elemen/Gaya/Contoh Soal.MOV" />
             </div>
           </PapanPutihFull>
         )
