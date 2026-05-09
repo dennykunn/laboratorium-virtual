@@ -30,7 +30,7 @@ function LoadingScreen() {
           transition={{ duration: 0.5 }}
         >
           <img
-            src="public/assets/elemen/Laboratorium virtual.png"
+            src="/assets/elemen/Laboratorium virtual.png"
             alt="Laboratorium Virtual"
             className="w-[min(450px,80vw)] h-auto drop-shadow-[4px_6px_12px_rgba(0,0,0,0.4)]"
           />
