@@ -542,6 +542,16 @@ function TopicFlow({ topic }) {
               <video ref={videoRef} src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4" controls playsInline className="w-full lg:h-[55%] h-[70%] object-cover bg-black" />
             </div>
           </CharacterAndBoard>
+          <PapanPutihFull>
+            <div className="font-oswald text-gray-800 p-2">
+              <h3 className="text-center text-xl lg:text-4xl font-bold mb-3">COBA TEBAK</h3>
+              <ol className="list-decimal list-inside space-y-3 text-base md:text-lg lg:text-3xl leading-snug">
+                <li>Menurutmu, mengapa dua mobil yang menempuh lintasan sama bisa sampai pada waktu yang berbeda?</li>
+                <li>Jika jarak diperbesar tetapi waktu tetap, bagaimana dugaanmu tentang kelajuan?</li>
+                <li>Menurut pendapatmu, faktor apa yang memengaruhi kelajuan mobil?</li>
+              </ol>
+            </div>
+          </PapanPutihFull>
         );
 
       case "gerak-bertanya":
