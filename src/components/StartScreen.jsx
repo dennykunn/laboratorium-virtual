@@ -50,7 +50,7 @@ function StartScreen() {
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center gap-2.5">
-        <motion.img src="public/assets/elemen/Laboratorium virtual.png" alt="Laboratorium Virtual Inklusif"
+        <motion.img src="/assets/elemen/Laboratorium virtual.png" alt="Laboratorium Virtual Inklusif"
           className="w-[min(500px,80vw)] h-auto drop-shadow-[4px_6px_12px_rgba(0,0,0,0.3)]"
           initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }} />
