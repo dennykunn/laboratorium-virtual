@@ -20,7 +20,7 @@ function PanduanScreen() {
     { image: '/assets/elemen/Papan Panduan 3.png' },
   ]
 
-  useEffect(() => { playNarration('ui-panduan') }, [playNarration])
+  useEffect(() => { playNarration('slide-panduan') }, [playNarration])
   const handleButtonClick = (action, sound = 'click') => { playSound(sound); action() }
 
   return (
