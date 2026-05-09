@@ -61,7 +61,7 @@ function StartScreen() {
           transition={{ delay: 0.4, duration: 0.5 }} />
 
         <motion.img src="/assets/elemen/IPA- SMP.png" alt="IPA SMP/MTs Kelas VII"
-          className="w-[min(400px,50vw)] h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]"
+          className="w-[min(400px,50vw)] h-auto drop-shadow-[4px_6px_12px_rgba(0,0,0,0.3)]"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }} />
 
