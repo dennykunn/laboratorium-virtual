@@ -30,7 +30,7 @@ function LoadingScreen() {
           transition={{ duration: 0.5 }}
         >
           <img
-            src="/assets/elemen/Laboratorium Virtual Inklusif.png"
+            src="/assets/elemen/Laboratorium virtual.png"
             alt="Laboratorium Virtual"
             className="w-[min(450px,80vw)] h-auto drop-shadow-[4px_6px_12px_rgba(0,0,0,0.4)]"
           />
@@ -54,7 +54,7 @@ function LoadingScreen() {
           transition={{ delay: 0.5 }}
         >
           <img
-            src="/assets/elemen/IPA-SMPMTs kelas VII.png"
+            src="/assets/elemen/IPA- SMP.png"
             alt="IPA SMP/MTs Kelas VII"
             className="w-[min(250px,50vw)] h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]"
           />
