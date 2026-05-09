@@ -534,25 +534,40 @@ function TopicFlow({ topic }) {
   //  RENDER SLIDE
   // ─────────────────────────────────────────
   const renderSlide = () => {
-    switch (slide.type) {
-      case "gerak-simak":
-        return (
-           <PapanPutihFull>
-            <div className="font-oswald text-gray-800 p-2">
-              <h3 className="text-center text-xl lg:text-4xl font-bold mb-3">COBA TEBAK</h3>
-              <ol className="list-decimal list-inside space-y-3 text-base md:text-lg lg:text-3xl leading-snug">
-                <li>Menurutmu, Menurutmu, apa yang menyebabkan perbedaan gerak antara mobil yang satu dengan yang lain pada video??</li>
-                <li>Jika waktu perjalanan kedua mobil sama, mengapa jarak yang ditempuh bisa berbeda??</li>
-                <li>Menurut pendapatmu, faktor apa yang memengaruhi kelajuan mobil?</li>
-              </ol>
+  switch (slide.type) {
+    case "gerak-simak":
+      return (
+        <CharacterAndBoard
+          characterSrc="/assets/elemen/Gaya/Ayo Simak.png"
+          characterAlt="Ayo Simak"
+          boardInset="6%"
+        >
+          <div className="flex flex-col justify-center items-center h-full w-full gap-4 relative">
+            
+            {/* Teks deskripsi di atas video */}
+            <div className="w-full text-center">
+              <h2 className="text-lg lg:text-2xl font-bold text-white drop-shadow-md">
+                Amati Gerakan Mobil Berikut!
+              </h2>
+              <p className="text-sm lg:text-base text-white mt-2 px-4">
+                Perhatikan arah gerak, kecepatan, dan perubahan posisi mobil
+                selama video diputar.
+              </p>
             </div>
-          </PapanPutihFull>
-          <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo Simak.png" characterAlt="Ayo Simak" boardInset="6%">
-            <div className="flex flex-col justify-center items-center h-full w-full gap-2">
-              <video ref={videoRef} src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4" controls playsInline className="w-full lg:h-[55%] h-[70%] object-cover bg-black" />
-            </div>
-          </CharacterAndBoard>
-        );
+
+            {/* Video */}
+            <video
+              ref={videoRef}
+              src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
+              controls
+              playsInline
+              className="w-full lg:h-[55%] h-[70%] object-cover bg-black rounded-xl"
+            />
+          </div>
+        </CharacterAndBoard>
+      );
+  }
+};
 
       case "gerak-bertanya":
         return (
