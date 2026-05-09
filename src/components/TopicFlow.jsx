@@ -533,7 +533,7 @@ function TopicFlow({ topic }) {
   // ─────────────────────────────────────────
   //  RENDER SLIDE
   // ─────────────────────────────────────────
-  const renderSlide = () => {
+ const renderSlide = () => {
   switch (slide.type) {
     case "gerak-simak":
       return (
@@ -542,16 +542,16 @@ function TopicFlow({ topic }) {
           characterAlt="Ayo Simak"
           boardInset="6%"
         >
-          <div className="flex flex-col justify-center items-center h-full w-full gap-4 relative">
-            
-            {/* Teks deskripsi di atas video */}
-            <div className="w-full text-center">
-              <h2 className="text-lg lg:text-2xl font-bold text-white drop-shadow-md">
-                Amati Gerakan Mobil Berikut!
+          <div className="flex flex-col items-center justify-center h-full w-full gap-3 p-4">
+
+            {/* Deskripsi */}
+            <div className="text-center z-10">
+              <h2 className="text-black text-xl lg:text-2xl font-bold">
+                Amati Gerakan Mobil!
               </h2>
-              <p className="text-sm lg:text-base text-white mt-2 px-4">
-                Perhatikan arah gerak, kecepatan, dan perubahan posisi mobil
-                selama video diputar.
+
+              <p className="text-black text-sm lg:text-base mt-1">
+                Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
               </p>
             </div>
 
