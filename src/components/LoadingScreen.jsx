@@ -54,7 +54,7 @@ function LoadingScreen() {
           transition={{ delay: 0.5 }}
         >
           <img
-            src="/assets/elemen/IPA- SMP.png"
+            src="public/assets/elemen/IPA_SMP.png"
             alt="IPA SMP/MTs Kelas VII"
             className="w-[min(250px,50vw)] h-auto drop-shadow-[2px_4px_8px_rgba(0,0,0,0.3)]"
           />
