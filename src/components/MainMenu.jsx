@@ -33,7 +33,7 @@ function MainMenu() {
       </div>
 
       <div className="absolute top-4 left-4 z-100">
-        <img src="/assets/elemen/Logo Universitas Muhammadiyah Riau.png" alt="Logo UMRI"
+        <img src="/assets/elemen/Logo UMRI.png" alt="Logo UMRI"
           className="w-auto h-[60px] object-contain drop-shadow-[2px_3px_5px_rgba(0,0,0,0.3)]" />
       </div>
 
