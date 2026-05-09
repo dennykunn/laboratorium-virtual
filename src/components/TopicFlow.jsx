@@ -537,11 +537,34 @@ const renderSlide = () => {
     switch (slide.type) {
       case "gerak-simak":
         return (
-          <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo Simak.png" characterAlt="Ayo Simak" boardInset="6%">
-            <div className="flex flex-col justify-center items-center h-full w-full gap-2">
-              <video ref={videoRef} src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4" controls playsInline className="w-full lg:h-[55%] h-[70%] object-cover bg-black" />
-            </div>
-          </CharacterAndBoard>
+          <CharacterAndBoard
+  characterSrc="/assets/elemen/Gaya/Ayo Simak.png"
+  characterAlt="Ayo Simak"
+  boardInset="6%"
+>
+  <div className="relative z-10 flex flex-col items-center justify-center h-full w-full gap-3 p-4">
+
+    {/* Deskripsi */}
+    <div className="text-center">
+      <h2 className="text-black text-xl lg:text-2xl font-bold">
+        Amati Gerakan Mobil!
+      </h2>
+
+      <p className="text-black text-sm lg:text-base mt-1">
+        Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
+      </p>
+    </div>
+
+    {/* Video */}
+    <video
+      ref={videoRef}
+      src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
+      controls
+      playsInline
+      className="w-full lg:h-[55%] h-[70%] object-cover bg-black rounded-xl"
+    />
+  </div>
+</CharacterAndBoard>
         );
 
       case "gerak-bertanya":
