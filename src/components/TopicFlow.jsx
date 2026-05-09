@@ -542,7 +542,7 @@ function TopicFlow({ topic }) {
           characterAlt="Ayo Simak"
           boardInset="6%"
         >
-          <div className="flex flex-col items-center justify-center h-full w-full gap-3 p-4">
+          <div className="relative z-10 flex flex-col items-center justify-center h-full w-full gap-3 p-4">
 
             {/* Deskripsi */}
             <div className="text-center z-10">
