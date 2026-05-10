@@ -551,7 +551,6 @@ const renderSlide = () => {
       </h2>
 
       <p className="text-black text-sm lg:text-base mt-1"> 
-        className="w-[50%] aspect-video object-cover rounded-2xl"
         Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
       </p>
     </div>
@@ -572,6 +571,7 @@ const renderSlide = () => {
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Ayo bertanya.png" characterAlt="Ayo Bertanya">
             <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
+              <img src=" /assets/elemen/Mengajukan Pertanyaan atau Permasalahan.png" className="w-full object-contain" />
               <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-full object-contain" />
               <img src="/assets/elemen/Gaya/Ayo bertanya 2.png" alt="Pertanyaan 2" className="w-full object-contain" />
             </div>
