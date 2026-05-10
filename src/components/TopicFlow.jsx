@@ -551,7 +551,7 @@ const renderSlide = () => {
       </h2>
 
       <p className="text-black text-sm lg:text-base mt-1"> 
-        className="w-[78%] aspect-video object-cover rounded-2xl"
+        className="w-[50%] aspect-video object-cover rounded-2xl"
         Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
       </p>
     </div>
