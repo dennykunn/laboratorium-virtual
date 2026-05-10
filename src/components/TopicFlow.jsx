@@ -561,7 +561,7 @@ const renderSlide = () => {
       src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
       controls
       playsInline
-      className="w-full lg:h-[50%] h-[60%] object-cover bg-black rounded-xl"
+      className="w-full lg:h-[30%] h-[35%] object-cover bg-black rounded-xl"
     />
   </div>
 </CharacterAndBoard>
