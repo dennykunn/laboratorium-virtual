@@ -790,7 +790,6 @@ const renderSlide = () => {
               <p>
                 Untuk setiap aksi gaya akan ada gaya reaksi yang sama besar tetapi berlawanan arah. Perlu ditekankan bahwa gaya aksi dan gaya reaksi bekerja pada benda yang <span className="font-bold">berbeda</span>.
               </p>
-              <p className="italic text-gray-500">Contoh: Saat mendorong dinding, tangan merasakan dorongan balik dari dinding.</p>
             </div>
           </PapanPutihFull>
         );
