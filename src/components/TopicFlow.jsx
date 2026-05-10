@@ -550,7 +550,8 @@ const renderSlide = () => {
         Amati Gerakan Mobil!
       </h2>
 
-      <p className="text-black text-sm lg:text-base mt-1">
+      <p className="text-black text-sm lg:text-base mt-1"> 
+        className="w-[78%] aspect-video object-cover rounded-2xl"
         Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
       </p>
     </div>
@@ -561,7 +562,7 @@ const renderSlide = () => {
       src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
       controls
       playsInline
-      className="w-full lg:h-[60%] h-[90%] object-cover bg-black rounded-xl"
+      <div className="absolute bottom-[6%] left-[11%]">
     />
   </div>
 </CharacterAndBoard>
