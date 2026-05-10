@@ -561,7 +561,7 @@ const renderSlide = () => {
       src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
       controls
       playsInline
-      className="w-[78%] lg:h-[58%] h-[58%] object-cover bg-black rounded-xl"
+      className="w-full lg:h-[60%] h-[90%] object-cover bg-black rounded-xl"
     />
   </div>
 </CharacterAndBoard>
@@ -697,7 +697,7 @@ const renderSlide = () => {
             </div>
           </CharacterAndBoard>
         );
-
+    
       case "gaya-bertanya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo bertanya.png" characterAlt="Ayo Bertanya">
