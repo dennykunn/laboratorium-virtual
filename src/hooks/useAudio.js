@@ -22,6 +22,7 @@ const OPERATOR_AUDIO_MAP = {
   "slide-cptp": `${operatorBase}/006a.mp3`,
   "slide-panduan": `${operatorBase}/Operator_Panduan.mp3`,
   "slide-gerak-bertanya": `${operatorBase}/007.mp3`,
+  "slide-gerak-merumuskan-hipotesis": `${operatorBase}/008.mp3`,
   "slide-gerak-coba-tebak": `${operatorPerbaikan}/008.mp3`,
   "slide-gerak-coba-tebak-pertanyaan": `${operatorPerbaikan}/009.mp3`,
   "slide-gerak-materi": `${operatorBase}/0010 A.mp3`,

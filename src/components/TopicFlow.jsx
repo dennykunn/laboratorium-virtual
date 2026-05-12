@@ -20,7 +20,7 @@ const LAYOUT = {
 const GERAK_SLIDES = [
   { type: "gerak-simak", label: "Ayo Simak" },
   { type: "gerak-bertanya", label: "Ayo Bertanya" },
-  { type: "gerak-coba-tebak-image", label: "Coba Tebak" },
+  { type: "gerak-merumuskan-hipotesis", label: "Merumuskan Hipotesis" },
   { type: "gerak-coba-tebak-pertanyaan", label: "Coba Tebak Pertanyaan", background: "/assets/latar-slide/4.png" },
   { type: "gerak-materi", label: "Materi Gerak" },
   { type: "kecepatan-rumus", label: "Kecepatan dan Rumus" },
@@ -273,6 +273,7 @@ function TopicFlow({ topic }) {
     const map = {
       "gerak-simak": "ui-ayo-simak",
       "gerak-bertanya": "slide-gerak-bertanya",
+      "gerak-merumuskan-hipotesis": "slide-gerak-merumuskan-hipotesis",
       "gerak-coba-tebak-image": "slide-gerak-coba-tebak",
       "gerak-coba-tebak-pertanyaan": "slide-gerak-coba-tebak-pertanyaan",
       "gerak-materi": "slide-gerak-materi",
@@ -547,19 +548,6 @@ function TopicFlow({ topic }) {
           >
             <div className="relative z-10 flex flex-col items-center justify-center h-full w-full gap-3 p-4">
               <img src={`${ET}/Orientasi Gerak.png`} alt="Orientasi Gerak" className="w-full object-contain" />
-
-              {/* Deskripsi */}
-              {/* <div className="text-center">
-                <h2 className="text-black text-xl lg:text-2xl font-bold">
-                  Amati Gerakan Mobil!
-                </h2>
-
-                <p className="text-black text-sm lg:text-base mt-1">
-                  Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
-                </p>
-              </div> */}
-
-              {/* Video */}
               <video
                 ref={videoRef}
                 src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
@@ -585,14 +573,23 @@ function TopicFlow({ topic }) {
       case "gerak-coba-tebak-image":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Coba Tebak.png" characterAlt="Coba Tebak" boardInset="8%">
-            <div className="w-full h-full flex flex-col justify-center gap-2 overflow-y-auto items-center py-1">
-              <br />
-              <img src={`${ET}/Merumuskan Hipotesis.png`} alt="Merumuskan hipotesis" className="w-2/3 object-contain" />
-              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-2/3 object-contain" />
-              <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-2/3  object-contain" />
+            <div className="flex h-full w-full items-center justify-center overflow-y-auto py-1">
+              <img src="/assets/elemen/Gerak/Coba tebak 1.png" alt="Coba Tebak" className="max-h-full w-full object-contain" />
             </div>
           </CharacterAndBoard>
         );
+
+      case "gerak-merumuskan-hipotesis":
+        return (
+          <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Coba Tebak.png" characterAlt="Merumuskan Hipotesis" boardInset="8%">
+            <div className="w-full h-full flex flex-col justify-center gap-2 overflow-y-auto items-center py-1">
+              <img src={`${ET}/Merumuskan Hipotesis.png`} alt="Merumuskan hipotesis" className="w-full object-contain shrink-0" />
+              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-full object-contain" />
+            </div>
+          </CharacterAndBoard>
+        );
+
+
 
       case "gerak-coba-tebak-pertanyaan":
         return (
@@ -631,7 +628,6 @@ function TopicFlow({ topic }) {
               <p>
                 <span className="font-bold">Kelajuan</span> adalah seberapa cepat jarak ditempuh dalam waktu tertentu tanpa memperhitungkan arah. Kelajuan termasuk besaran skalar.
               </p>
-              <img src={`${ET}/Rumus Gerak.png`} alt="Rumus gerak" className="w-full max-h-[40%] object-contain mx-auto" />
             </div>
           </PapanPutihFull>
         );
@@ -644,18 +640,19 @@ function TopicFlow({ topic }) {
                 <span className="font-bold">Kecepatan</span> adalah besarnya perpindahan per satuan waktu. Kecepatan adalah besaran vektor yang memiliki nilai, satuan, dan arah.
               </p>
               <p>Dengan membandingkan jarak tempuh terhadap waktu, kamu akan mendapatkan nilai kelajuan sebuah benda. Kelajuan dapat ditulis dalam persamaan:</p>
-              <div className="bg-gray-100 rounded-lg p-3 text-center text-2xl md:text-3xl font-bold tracking-wide">v = s / t</div>
-              <ul className="space-y-1">
-                <li>
-                  <span className="font-bold">v</span> = Kelajuan (m/s)
-                </li>
-                <li>
-                  <span className="font-bold">s</span> = Jarak tempuh (m)
-                </li>
-                <li>
-                  <span className="font-bold">t</span> = Waktu (s)
-                </li>
-              </ul>
+              <img src={`${ET}/Rumus Gerak.png`} alt="Rumus gerak" className="w-full max-h-[40%] object-contain mx-auto" />
+              <div className="space-y-1">
+                <p className="font-bold">Keterangan:</p>
+                <p>
+                  <span className="font-bold">v</span> = Kelajuan, satuannya m/s
+                </p>
+                <p>
+                  <span className="font-bold">s</span> = Jarak tempuh, satuannya meter (m)
+                </p>
+                <p>
+                  <span className="font-bold">t</span> = waktu, satuannya adalah sekon atau detik (s)
+                </p>
+              </div>
             </div>
           </PapanPutihFull>
         );
@@ -681,23 +678,17 @@ function TopicFlow({ topic }) {
       case "tabel-pengamatan-gerak":
         return (
           <PapanPutihFull>
-            <img src="/assets/elemen/Gerak/Tabel Pengamatan.png" alt="Tabel Pengamatan" className="w-full h-full object-contain" />
+            <h1 className="text-center text-4xl font-bold font-oswald">TABEL PENGAMATAN</h1>
+            <img src={`${ET}/Mengumpulkan Data.png`} alt="Mengumpulkan data" className="w-1/3 h-fit object-contain" />
+            <img src="/assets/elemen/Gerak/Tabel Pengamatan.png" alt="Tabel Pengamatan" className="w-full h-fit object-contain" />
           </PapanPutihFull>
         );
 
       case "analisis-yuk-gerak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Analisis Yuk.png" characterAlt="Analisis Yuk">
+            <h3 className="text-left text-2xl font-bold font-oswald">Menganalisis Data</h3>
             <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <img src={`${ET}/Menganalisis Data.png`} alt="Menganalisis data" className="w-full object-contain" />
-              <img src="/assets/elemen/Gerak/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-2/3 object-contain" />
               <img src={`${ET}/Gunakan Jawaban.png`} alt="Gunakan jawaban" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gerak/Analisis Yuk 2.png" alt="Analisis Yuk 2" className="w-full object-contain" />
             </div>
@@ -707,10 +698,9 @@ function TopicFlow({ topic }) {
       case "mari-simpulkan-gerak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Mari Simpulkan.png" characterAlt="Mari Simpulkan">
+            <h3 className="text-left text-2xl font-bold font-oswald">Membuat Kesimpulan</h3>
             <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
-              <br />
-              <img src={`${ET}/Membuat Kesimpulan.png`} alt="Membuat kesimpulan" className="w-full object-contain shrink-0" />
-              <img src="/assets/elemen/Gerak/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-2/3 object-contain" />
+              <img src="/assets/elemen/Gerak/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-3/4 object-contain" />
               <img src="/assets/elemen/Gerak/Mari Simpulkan 2.png" alt="Mari Simpulkan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -729,8 +719,9 @@ function TopicFlow({ topic }) {
       case "gaya-bertanya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo bertanya.png" characterAlt="Ayo Bertanya">
-            <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto gap-2">
-              <img src={`${ET}/Mengajukan Pertanyaan atau Permasalahan.png`} alt="Mengajukan pertanyaan atau permasalahan" className="w-full object-contain shrink-0" />
+            <h3 className="text-left text-2xl font-bold font-oswald">Mengajukan Pertanyaan atau Permasalahan</h3>
+            <br />
+            <div className="w-full h-fit flex flex-col items-center justify-center overflow-y-auto gap-2">
               <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Ayo bertanya 2.png" alt="Pertanyaan 2" className="w-full object-contain" />
             </div>
@@ -740,12 +731,10 @@ function TopicFlow({ topic }) {
       case "gaya-coba-tebak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Coba Tebak.png" characterAlt="Coba Tebak" boardInset="8%">
-            <div className="w-full h-full flex flex-col justify-center gap-2 overflow-y-auto py-1 items-center">
-              <br />
-              <br />
-              <img src={`${ET}/Merumuskan Hipotesis.png`} alt="Merumuskan hipotesis" className="w-full object-contain" />
-              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-2/3 object-contain" />
-              <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-2/3 object-contain" />
+            <h3 className="text-left text-2xl font-bold font-oswald">Mengajukan Pertanyaan atau Permasalahan</h3>
+            <br />
+            <div className="w-full h-fit flex flex-col justify-center gap-2 overflow-y-auto py-1 items-center">
+              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
         );
@@ -814,11 +803,21 @@ function TopicFlow({ topic }) {
             <div className="font-oswald text-gray-800 text-base md:text-lg lg:text-3xl leading-relaxed space-y-3">
               <h3 className="font-bold">Hukum 2 Newton</h3>
               <p>Percepatan sebuah benda sebanding dengan gaya yang diberikan dan berbanding terbalik dengan massanya. Hukum II Newton dituangkan dalam rumus:</p>
-              {/* <div className="text-center text-2xl md:text-3xl font-bold italic my-2">F = m × a</div>
-                <p>F = Gaya (Newton) &nbsp;|&nbsp; m = massa (kg) &nbsp;|&nbsp; a = percepatan (m/s²)</p> */}
-            </div>
-            <div className="flex flex-col items-center">
-              <img src={`${ET}/Rumus Hukum 2 Newton.png`} alt="Rumus hukum 2 Newton" className="w-2/3 object-contain" />
+              <div className="flex flex-col items-center">
+                <img src={`${ET}/Rumus Hukum 2 Newton.png`} alt="Rumus hukum 2 Newton" className="w-2/3 object-contain" />
+              </div>
+              <div className="space-y-1 text-base md:text-lg lg:text-2xl">
+                <p className="font-bold">Keterangan:</p>
+                <p>
+                  <span className="font-bold">F</span> = Gaya, dengan satuan Newton
+                </p>
+                <p>
+                  <span className="font-bold">m</span> = massa benda, satuan kilogram (kg)
+                </p>
+                <p>
+                  <span className="font-bold">a</span> = percepatan gerak benda, satuan m/s
+                </p>
+              </div>
             </div>
           </PapanPutihFull>
         );
@@ -860,24 +859,17 @@ function TopicFlow({ topic }) {
       case "tabel-pengamatan-gaya":
         return (
           <PapanPutihFull>
-            <img src="/assets/elemen/Gaya/Tabel Pengamatan.png" alt="Tabel Pengamatan" className="w-full h-full object-contain" />
+            <h1 className="text-center text-4xl font-bold font-oswald">TABEL PENGAMATAN</h1>
+            <img src={`${ET}/Mengumpulkan Data.png`} alt="Mengumpulkan data" className="w-1/3 h-fit object-contain" />
+            <img src="/assets/elemen/Gaya/Tabel Pengamatan.png" alt="Tabel Pengamatan" className="w-full h-fit object-contain" />
           </PapanPutihFull>
         );
 
       case "analisis-yuk-gaya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Analisis Yuk.png" characterAlt="Analisis Yuk">
-            <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto gap-2">
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <br />
-              <img src={`${ET}/Menganalisis Data.png`} alt="Menganalisis data" className="w-full object-contain" />
-              <img src="/assets/elemen/Gaya/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-2/3 object-contain" />
+            <h3 className="text-left text-2xl font-bold font-oswald">Menganalisis Data</h3>
+            <div className="w-full h-fit flex flex-col justify-center overflow-y-auto gap-2 items-center">
               <img src={`${ET}/Gunakan Jawaban.png`} alt="Gunakan jawaban" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Analisis Yuk 2.png" alt="Analisis Yuk 2" className="w-full object-contain" />
             </div>
@@ -887,9 +879,8 @@ function TopicFlow({ topic }) {
       case "mari-simpulkan-gaya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Mari Simpulkan.png" characterAlt="Mari Simpulkan">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
-              <img src={`${ET}/Membuat Kesimpulan.png`} alt="Membuat kesimpulan" className="w-full object-contain" />
-              <img src="/assets/elemen/Gaya/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-2/3 object-contain" />
+            <h3 className="text-left text-2xl font-bold font-oswald">Membuat Kesimpulan</h3>
+            <div className="w-full h-fit flex flex-col justify-center overflow-y-auto gap-2 items-center"><img src="/assets/elemen/Gaya/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Mari Simpulkan 2.png" alt="Mari Simpulkan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
