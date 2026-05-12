@@ -9,6 +9,8 @@ let isOperatorEnabledGlobal = true;
 
 const audioCache = {};
 const operatorBase = "/assets/backsound/Audio Operator";
+/** Narasi perbaikan validator — `public/assets/backsound/Audio Operator/Audio Perbaikan/` */
+const operatorPerbaikan = `${operatorBase}/Audio Perbaikan`;
 
 const OPERATOR_AUDIO_MAP = {
   // Slide / screen narration
@@ -20,13 +22,16 @@ const OPERATOR_AUDIO_MAP = {
   "slide-cptp": `${operatorBase}/006a.mp3`,
   "slide-panduan": `${operatorBase}/Operator_Panduan.mp3`,
   "slide-gerak-bertanya": `${operatorBase}/007.mp3`,
-  "slide-gerak-coba-tebak": `${operatorBase}/008.mp3`,
-  "slide-gerak-coba-tebak-pertanyaan": `${operatorBase}/009.mp3`,
+  "slide-gerak-coba-tebak": `${operatorPerbaikan}/008.mp3`,
+  "slide-gerak-coba-tebak-pertanyaan": `${operatorPerbaikan}/009.mp3`,
   "slide-gerak-materi": `${operatorBase}/0010 A.mp3`,
   "slide-kecepatan-rumus": `${operatorBase}/0010 B.mp3`,
-  "slide-gerak-analisis": `${operatorBase}/0012.mp3`,
+  "slide-gerak-analisis": `${operatorPerbaikan}/012.mp3`,
   "slide-gerak-simpulkan": `${operatorBase}/0013.mp3`,
   "slide-gerak-score": `${operatorBase}/0015.mp3`,
+  "slide-gaya-score": `${operatorBase}/0022.mp3`,
+  "contoh-soal-gerak": `${operatorBase}/Contoh soal Gerak.mp3`,
+  "contoh-soal-gaya": `${operatorBase}/Contoh soal Gaya.mp3`,
   "slide-gaya-coba-tebak": `${operatorBase}/0016.mp3`,
   "slide-gaya-coba-tebak-pertanyaan": `${operatorBase}/0017.mp3`,
   "slide-gaya-materi": `${operatorBase}/0018 A.mp3`,

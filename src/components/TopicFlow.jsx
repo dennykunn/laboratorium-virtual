@@ -152,6 +152,9 @@ const GAYA_QUESTIONS = [
 ];
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+/** Aset validator — folder `Elemen Tambahan` (perhatikan huruf besar/kecil URL) */
+const ET = "/assets/Elemen Tambahan";
 const GERAK_QUIZ_AUDIO = [
   "/assets/backsound/Audio Operator/0014_1.m4a",
   "/assets/backsound/Audio Operator/0014_2.m4a",
@@ -278,7 +281,7 @@ function TopicFlow({ topic }) {
       "analisis-yuk-gerak": "slide-gerak-analisis",
       "mari-simpulkan-gerak": "slide-gerak-simpulkan",
       "gaya-simak": "ui-ayo-simak",
-      "gaya-bertanya": "ui-ayo-bertanya",
+      "gaya-bertanya": "slide-gerak-bertanya",
       "gaya-coba-tebak": "slide-gaya-coba-tebak",
       "gaya-coba-tebak-pertanyaan": "slide-gaya-coba-tebak-pertanyaan",
       "materi-gaya": "slide-gaya-materi",
@@ -289,7 +292,7 @@ function TopicFlow({ topic }) {
       "contoh-soal-gaya": "contoh-soal-gaya",
       "analisis-yuk-gaya": "slide-gaya-analisis",
       "mari-simpulkan-gaya": "slide-gaya-simpulkan",
-      score: "slide-gerak-score",
+      score: topic === "gerak" ? "slide-gerak-score" : "slide-gaya-score",
     };
     const key = map[slide.type];
     if (key) playNarration(key);
@@ -484,8 +487,8 @@ function TopicFlow({ topic }) {
     if (slide.type !== "score") return;
     try {
       scoreAudioRef.current = new Audio("/assets/backsound/Tampilan Nilai.wav");
-      scoreAudioRef.current.play().catch(() => {});
-    } catch (_) {}
+      scoreAudioRef.current.play().catch(() => { });
+    } catch (_) { }
     return () => {
       scoreAudioRef.current?.pause();
       scoreAudioRef.current = null;
@@ -533,46 +536,47 @@ function TopicFlow({ topic }) {
   // ─────────────────────────────────────────
   //  RENDER SLIDE
   // ─────────────────────────────────────────
-const renderSlide = () => {
+  const renderSlide = () => {
     switch (slide.type) {
       case "gerak-simak":
         return (
           <CharacterAndBoard
-  characterSrc="/assets/elemen/Gaya/Ayo Simak.png"
-  characterAlt="Ayo Simak"
-  boardInset="6%"
->
-  <div className="relative z-10 flex flex-col items-center justify-center h-full w-full gap-3 p-4">
+            characterSrc="/assets/elemen/Gaya/Ayo Simak.png"
+            characterAlt="Ayo Simak"
+            boardInset="6%"
+          >
+            <div className="relative z-10 flex flex-col items-center justify-center h-full w-full gap-3 p-4">
+              <img src={`${ET}/Orientasi Gerak.png`} alt="Orientasi Gerak" className="w-full object-contain" />
 
-    {/* Deskripsi */}
-    <div className="text-center">
-      <h2 className="text-black text-xl lg:text-2xl font-bold">
-        Amati Gerakan Mobil!
-      </h2>
+              {/* Deskripsi */}
+              {/* <div className="text-center">
+                <h2 className="text-black text-xl lg:text-2xl font-bold">
+                  Amati Gerakan Mobil!
+                </h2>
 
-      <p className="text-black text-sm lg:text-base mt-1"> 
-        Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
-      </p>
-    </div>
+                <p className="text-black text-sm lg:text-base mt-1">
+                  Perhatikan perubahan posisi dan arah gerak mobil pada video berikut.
+                </p>
+              </div> */}
 
-    {/* Video */}
-    <video
-      ref={videoRef}
-      src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
-      controls
-      playsInline
-      <div className="absolute bottom-[6%] left-[11%]">
-    />
-  </div>
-</CharacterAndBoard>
+              {/* Video */}
+              <video
+                ref={videoRef}
+                src="/assets/elemen/Gerak/Animasi mobil Bergerak.mp4"
+                controls
+                playsInline
+                className="w-fit max-h-[36vh] object-contain rounded-lg bg-black"
+              />
+            </div>
+          </CharacterAndBoard>
         );
 
       case "gerak-bertanya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Ayo bertanya.png" characterAlt="Ayo Bertanya">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src=" /assets/elemen/Mengajukan Pertanyaan atau Permasalahan.png" alt="Pertanyaan 1" className="w-full object-contain" />
-              <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-full object-contain" />
+            <div className="w-full h-full flex flex-col justify-center items-center overflow-y-auto gap-2">
+              <img src={`${ET}/Mengajukan Pertanyaan atau Permasalahan.png`} alt="Mengajukan pertanyaan atau permasalahan" className="w-full object-contain shrink-0" />
+              <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Ayo bertanya 2.png" alt="Pertanyaan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -581,7 +585,12 @@ const renderSlide = () => {
       case "gerak-coba-tebak-image":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Coba Tebak.png" characterAlt="Coba Tebak" boardInset="8%">
-            <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-full h-full object-contain" />
+            <div className="w-full h-full flex flex-col justify-center gap-2 overflow-y-auto items-center py-1">
+              <br />
+              <img src={`${ET}/Merumuskan Hipotesis.png`} alt="Merumuskan hipotesis" className="w-2/3 object-contain" />
+              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-2/3 object-contain" />
+              <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-2/3  object-contain" />
+            </div>
           </CharacterAndBoard>
         );
 
@@ -622,6 +631,7 @@ const renderSlide = () => {
               <p>
                 <span className="font-bold">Kelajuan</span> adalah seberapa cepat jarak ditempuh dalam waktu tertentu tanpa memperhitungkan arah. Kelajuan termasuk besaran skalar.
               </p>
+              <img src={`${ET}/Rumus Gerak.png`} alt="Rumus gerak" className="w-full max-h-[40%] object-contain mx-auto" />
             </div>
           </PapanPutihFull>
         );
@@ -653,9 +663,14 @@ const renderSlide = () => {
       case "contoh-soal-gerak":
         return (
           <PapanPutihFull>
-            <div className="w-full h-full flex flex-col gap-2 p-1">
-              <h3 className="font-bubblegum text-center text-primary-teal text-base md:text-xl">Contoh Soal Gerak</h3>
-              <video controls playsInline className="w-full h-[70%] object-contain bg-black rounded-lg" src="/assets/elemen/Gerak/Contoh Soal.MOV" />
+            <div className="flex h-full min-h-0 w-full flex-col gap-2 p-1">
+              <h3 className="font-bubblegum shrink-0 text-center text-primary-teal text-base md:text-xl">Contoh Soal Gerak</h3>
+              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-lg bg-black">
+                <video controls playsInline preload="metadata" className="max-h-full w-full object-contain">
+                  <source src="/assets/elemen/Gerak/Contoh Soal.mp4" type="video/mp4" />
+                  <source src="/assets/elemen/Gerak/Contoh Soal.MOV" type="video/quicktime" />
+                </video>
+              </div>
             </div>
           </PapanPutihFull>
         );
@@ -673,8 +688,17 @@ const renderSlide = () => {
       case "analisis-yuk-gerak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Analisis Yuk.png" characterAlt="Analisis Yuk">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src="/assets/elemen/Gerak/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-full object-contain" />
+            <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <img src={`${ET}/Menganalisis Data.png`} alt="Menganalisis data" className="w-full object-contain" />
+              <img src="/assets/elemen/Gerak/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-2/3 object-contain" />
+              <img src={`${ET}/Gunakan Jawaban.png`} alt="Gunakan jawaban" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gerak/Analisis Yuk 2.png" alt="Analisis Yuk 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -683,8 +707,10 @@ const renderSlide = () => {
       case "mari-simpulkan-gerak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gerak/Mari Simpulkan.png" characterAlt="Mari Simpulkan">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src="/assets/elemen/Gerak/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-[80%] object-contain" />
+            <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
+              <br />
+              <img src={`${ET}/Membuat Kesimpulan.png`} alt="Membuat kesimpulan" className="w-full object-contain shrink-0" />
+              <img src="/assets/elemen/Gerak/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gerak/Mari Simpulkan 2.png" alt="Mari Simpulkan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -693,17 +719,19 @@ const renderSlide = () => {
       case "gaya-simak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo Simak.png" characterAlt="Ayo Simak" boardInset="6%">
-            <div className="flex flex-col justify-center items-center h-full w-full gap-2">
-              <video ref={videoRef} src="/assets/elemen/Gaya/Gaya.mp4" controls playsInline className="w-full lg:h-[60%] h-[90%] object-contain bg-black" />
+            <div className="flex flex-col justify-center items-center h-full w-full gap-2 p-2">
+              <img src={`${ET}/Orientasi Gaya.png`} alt="Orientasi gaya" className="w-full object-contain" />
+              <video ref={videoRef} src="/assets/elemen/Gaya/Gaya.mp4" controls playsInline className="w-fit max-h-[36vh] object-contain bg-black rounded-lg" />
             </div>
           </CharacterAndBoard>
         );
-    
+
       case "gaya-bertanya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Ayo bertanya.png" characterAlt="Ayo Bertanya">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-full object-contain" />
+            <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto gap-2">
+              <img src={`${ET}/Mengajukan Pertanyaan atau Permasalahan.png`} alt="Mengajukan pertanyaan atau permasalahan" className="w-full object-contain shrink-0" />
+              <img src="/assets/elemen/Gaya/Ayo bertanya 1.png" alt="Pertanyaan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Ayo bertanya 2.png" alt="Pertanyaan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -712,7 +740,13 @@ const renderSlide = () => {
       case "gaya-coba-tebak":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Coba Tebak.png" characterAlt="Coba Tebak" boardInset="8%">
-            <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-full h-full object-contain" />
+            <div className="w-full h-full flex flex-col justify-center gap-2 overflow-y-auto py-1 items-center">
+              <br />
+              <br />
+              <img src={`${ET}/Merumuskan Hipotesis.png`} alt="Merumuskan hipotesis" className="w-full object-contain" />
+              <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-2/3 object-contain" />
+              <img src="/assets/elemen/Gaya/Coba Tebak 1.png" alt="Coba Tebak" className="w-2/3 object-contain" />
+            </div>
           </CharacterAndBoard>
         );
 
@@ -766,6 +800,10 @@ const renderSlide = () => {
                 Jika resultan gaya-gaya yang bekerja pada benda bernilai nol, benda itu akan diam selamanya atau akan bergerak lurus beraturan dengan kecepatan tetap. Hukum ini berbicara tentang konsep{" "}
                 <span className="font-bold">kelembaman</span> benda atau dikenal juga sebagai sifat kemalasan benda untuk mengubah posisinya.
               </p>
+              <br />
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={`${ET}/Rumus Hukum 1 Newton.png`} alt="Rumus hukum 1 Newton" className="w-2/3 object-contain" />
             </div>
           </PapanPutihFull>
         );
@@ -776,8 +814,11 @@ const renderSlide = () => {
             <div className="font-oswald text-gray-800 text-base md:text-lg lg:text-3xl leading-relaxed space-y-3">
               <h3 className="font-bold">Hukum 2 Newton</h3>
               <p>Percepatan sebuah benda sebanding dengan gaya yang diberikan dan berbanding terbalik dengan massanya. Hukum II Newton dituangkan dalam rumus:</p>
-              <div className="text-center text-2xl md:text-3xl font-bold italic my-2">F = m × a</div>
-              <p>F = Gaya (Newton) &nbsp;|&nbsp; m = massa (kg) &nbsp;|&nbsp; a = percepatan (m/s²)</p>
+              {/* <div className="text-center text-2xl md:text-3xl font-bold italic my-2">F = m × a</div>
+                <p>F = Gaya (Newton) &nbsp;|&nbsp; m = massa (kg) &nbsp;|&nbsp; a = percepatan (m/s²)</p> */}
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={`${ET}/Rumus Hukum 2 Newton.png`} alt="Rumus hukum 2 Newton" className="w-2/3 object-contain" />
             </div>
           </PapanPutihFull>
         );
@@ -790,6 +831,10 @@ const renderSlide = () => {
               <p>
                 Untuk setiap aksi gaya akan ada gaya reaksi yang sama besar tetapi berlawanan arah. Perlu ditekankan bahwa gaya aksi dan gaya reaksi bekerja pada benda yang <span className="font-bold">berbeda</span>.
               </p>
+              <br />
+            </div>
+            <div className="flex flex-col items-center">
+              <img src={`${ET}/Rumus Hukum 3 Newton.png`} alt="Rumus hukum 3 Newton" className="w-2/3 object-contain" />
             </div>
           </PapanPutihFull>
         );
@@ -797,9 +842,14 @@ const renderSlide = () => {
       case "contoh-soal-gaya":
         return (
           <PapanPutihFull>
-            <div className="w-full h-full flex flex-col gap-2 p-1">
-              <h3 className="font-bubblegum text-center text-primary-teal text-base md:text-xl">Contoh Soal Gaya</h3>
-              <video controls playsInline className="w-full h-[70%] object-contain bg-black rounded-lg" src="/assets/elemen/Gaya/Contoh Soal.MOV" />
+            <div className="flex h-full min-h-0 w-full flex-col gap-2 p-1">
+              <h3 className="font-bubblegum shrink-0 text-center text-primary-teal text-base md:text-xl">Contoh Soal Gaya</h3>
+              <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-lg bg-black">
+                <video controls playsInline preload="metadata" className="max-h-full w-full object-contain">
+                  <source src="/assets/elemen/Gaya/Contoh Soal.mp4" type="video/mp4" />
+                  <source src="/assets/elemen/Gaya/Contoh Soal.MOV" type="video/quicktime" />
+                </video>
+              </div>
             </div>
           </PapanPutihFull>
         );
@@ -817,8 +867,18 @@ const renderSlide = () => {
       case "analisis-yuk-gaya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Analisis Yuk.png" characterAlt="Analisis Yuk">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src="/assets/elemen/Gaya/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-full object-contain" />
+            <div className="w-full h-full flex flex-col items-center justify-center overflow-y-auto gap-2">
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <img src={`${ET}/Menganalisis Data.png`} alt="Menganalisis data" className="w-full object-contain" />
+              <img src="/assets/elemen/Gaya/Analisis Yuk 1.png" alt="Analisis Yuk 1" className="w-2/3 object-contain" />
+              <img src={`${ET}/Gunakan Jawaban.png`} alt="Gunakan jawaban" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Analisis Yuk 2.png" alt="Analisis Yuk 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
@@ -827,8 +887,9 @@ const renderSlide = () => {
       case "mari-simpulkan-gaya":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Mari Simpulkan.png" characterAlt="Mari Simpulkan">
-            <div className="w-full h-full flex flex-col justify-center overflow-y-auto">
-              <img src="/assets/elemen/Gaya/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-[80%] object-contain" />
+            <div className="w-full h-full flex flex-col justify-center overflow-y-auto gap-2 items-center">
+              <img src={`${ET}/Membuat Kesimpulan.png`} alt="Membuat kesimpulan" className="w-full object-contain" />
+              <img src="/assets/elemen/Gaya/Mari Simpulkan 1.png" alt="Mari Simpulkan 1" className="w-2/3 object-contain" />
               <img src="/assets/elemen/Gaya/Mari Simpulkan 2.png" alt="Mari Simpulkan 2" className="w-full object-contain" />
             </div>
           </CharacterAndBoard>
