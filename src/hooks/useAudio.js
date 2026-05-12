@@ -33,7 +33,7 @@ const OPERATOR_AUDIO_MAP = {
   "slide-gaya-score": `${operatorBase}/0022.mp3`,
   "contoh-soal-gerak": `${operatorBase}/Contoh soal Gerak.mp3`,
   "contoh-soal-gaya": `${operatorBase}/Contoh soal Gaya.mp3`,
-  "slide-gaya-coba-tebak": `${operatorBase}/0016.mp3`,
+  "slide-gaya-merumuskan-hipotesis": `${operatorBase}/008.mp3`,
   "slide-gaya-coba-tebak-pertanyaan": `${operatorBase}/0017.mp3`,
   "slide-gaya-materi": `${operatorBase}/0018 A.mp3`,
   "slide-gaya-newton": `${operatorBase}/0018 B.mp3`,

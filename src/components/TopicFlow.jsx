@@ -36,7 +36,7 @@ const GERAK_SLIDES = [
 const GAYA_SLIDES = [
   { type: "gaya-simak", label: "Ayo Simak" },
   { type: "gaya-bertanya", label: "Ayo Bertanya" },
-  { type: "gaya-coba-tebak", label: "Coba Tebak" },
+  { type: "gaya-merumuskan-hipotesis", label: "Merumuskan Hipotesis" },
   { type: "gaya-coba-tebak-pertanyaan", label: "Coba Tebak Pertanyaan", background: "/assets/latar-slide/4.png" },
   { type: "materi-gaya", label: "Materi Gaya" },
   { type: "newton", label: "Newton" },
@@ -283,7 +283,7 @@ function TopicFlow({ topic }) {
       "mari-simpulkan-gerak": "slide-gerak-simpulkan",
       "gaya-simak": "ui-ayo-simak",
       "gaya-bertanya": "slide-gerak-bertanya",
-      "gaya-coba-tebak": "slide-gaya-coba-tebak",
+      "gaya-merumuskan-hipotesis": "slide-gaya-merumuskan-hipotesis",
       "gaya-coba-tebak-pertanyaan": "slide-gaya-coba-tebak-pertanyaan",
       "materi-gaya": "slide-gaya-materi",
       newton: "slide-gaya-newton",
@@ -728,10 +728,10 @@ function TopicFlow({ topic }) {
           </CharacterAndBoard>
         );
 
-      case "gaya-coba-tebak":
+      case "gaya-merumuskan-hipotesis":
         return (
           <CharacterAndBoard characterSrc="/assets/elemen/Gaya/Coba Tebak.png" characterAlt="Coba Tebak" boardInset="8%">
-            <h3 className="text-left text-2xl font-bold font-oswald">Mengajukan Pertanyaan atau Permasalahan</h3>
+            <h3 className="text-left text-2xl font-bold font-oswald">Merumuskan Hipotesis</h3>
             <br />
             <div className="w-full h-fit flex flex-col justify-center gap-2 overflow-y-auto py-1 items-center">
               <img src={`${ET}/Tuliskan Hipotesismu.png`} alt="Tuliskan hipotesismu" className="w-full object-contain" />
